@@ -3,7 +3,7 @@ var fs = require('fs');
 var http = require('http');
 var output = __dirname + '/output.jpg';
 
-http.get('http://content8.flixster.com/movie/11/18/14/11181426_det.jpg', function (res) {
+http.get('http://content9.flixster.com/movie/11/18/98/11189899_det.jpg', function (res) {
     var data = '';
 
     res.setEncoding('binary');
