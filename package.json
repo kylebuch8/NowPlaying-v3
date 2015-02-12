@@ -1,0 +1,16 @@
+{
+  "name": "NowPlaying-v3",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "gulp": "~3.8.10",
+    "browser-sync": "~1.8.0",
+    "gulp-less": "~2.0.1"
+  }
+}

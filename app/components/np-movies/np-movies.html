@@ -1,0 +1,53 @@
+<ui-animated-pages class="movies">
+    <div class="movie show" style="background-image: url(images/poster_bg.jpg);">
+        <div class="movie-content">
+            <div class="poster">
+                <div class="poster-bg" style="background-image: url(images/poster.jpg);">
+                    <img src="images/poster.jpg">
+                </div>
+            </div>
+            <div class="title">
+                <h1>The Hobbit: The Battle of the Five Armies</h1>
+                <div class="score">80%</div>
+            </div>
+        </div>
+    </div>
+    <div class="movie" style="background-image: url(images/poster_bg.jpg);">
+        <div class="movie-content">
+            <div class="poster">
+                <div class="poster-bg" style="background-image: url(images/poster.jpg);">
+                    <img src="images/poster.jpg">
+                </div>
+            </div>
+            <div class="title">
+                <h1>The Hobbit: The Battle of the Five Armies</h1>
+                <div class="score">80%</div>
+            </div>
+        </div>
+    </div>
+    <div class="movie" style="background-image: url(images/poster_bg.jpg);">
+        <div class="movie-content">
+            <div class="poster">
+                <div class="poster-bg" style="background-image: url(images/poster.jpg);">
+                    <img src="images/poster.jpg">
+                </div>
+            </div>
+            <div class="title">
+                <h1>The Hobbit: The Battle of the Five Armies</h1>
+                <div class="score">80%</div>
+            </div>
+        </div>
+    </div>
+<!--
+    <div class="movie" ng-repeat="movie in movies">
+        {{movie.title}}
+    </div>
+-->
+</ui-animated-pages>
+
+<button id="previous" style="position: absolute; z-index: 9999; top: 50%; left: 10px;">Previous</button>
+<button id="next" style="position: absolute; z-index:9999; top: 50%; right: 10px;">Next</button>
+
+<div class="indicators">
+    <ui-page-indicators number="{{movies.length}}" active="0" provider="pageIndicators"></ui-page-indicators>
+</div>

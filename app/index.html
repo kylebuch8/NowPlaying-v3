@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Now Playing</title>
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,100,300">
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto+Condensed">
+        <link rel="stylesheet" href="styles/main.css">
+
+        <script src="bower_components/modernizr/modernizr.min.js"></script>
+    </head>
+    <body ng-app="nowPlaying">
+
+        <ng-view></ng-view>
+
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-route/angular-route.js"></script>
+        <script src="common/directives/ui-indicators/ui-indicators.js"></script>
+        <script src="common/directives/ui-animated-pages/ui-animated-pages.js"></script>
+        <script src="app.js"></script>
+        <script src="components/np-movies/np-movies.js"></script>
+    </body>
+</html>
