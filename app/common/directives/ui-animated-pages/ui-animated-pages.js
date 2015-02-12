@@ -6,6 +6,9 @@
         .directive('uiAnimatedPages', [function () {
             return {
                 restrict: 'AE',
+                scope: {
+                    pageIndicators: '='
+                },
                 link: function (scope, element) {
                     var previousBtn = document.getElementById('previous'),
                         nextBtn = document.getElementById('next'),
@@ -130,6 +133,9 @@
                                         current = 0;
                                     }
 
+                                    scope.pageIndicators.activate(current);
+                                    scope.$apply();
+
                                 } else {
                                     angular.element(pages[current]).addClass('animate');
                                     angular.element(pages[getNext()]).addClass('animate');
@@ -147,6 +153,9 @@
                                      if (current === -1) {
                                          current = pages.length - 1;
                                      }
+
+                                     scope.pageIndicators.activate(current);
+                                     scope.$apply();
                                  } else {
                                      angular.element(pages[current]).addClass('animate');
                                      angular.element(pages[getPrevious()]).addClass('animate hide');

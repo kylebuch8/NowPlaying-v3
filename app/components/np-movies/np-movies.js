@@ -7,6 +7,7 @@
         'directives.uiPageIndicators',
         'directives.uiAnimatedPages'
     ])
+    
         .config(['$routeProvider', function ($routeProvider) {
             $routeProvider
                 .when('/', {

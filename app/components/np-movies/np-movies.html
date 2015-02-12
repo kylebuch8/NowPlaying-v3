@@ -1,4 +1,4 @@
-<ui-animated-pages class="movies">
+<ui-animated-pages class="movies" page-indicators="pageIndicators">
     <div class="movie show" style="background-image: url(images/poster_bg.jpg);">
         <div class="movie-content">
             <div class="poster">
@@ -44,9 +44,6 @@
     </div>
 -->
 </ui-animated-pages>
-
-<button id="previous" style="position: absolute; z-index: 9999; top: 50%; left: 10px;">Previous</button>
-<button id="next" style="position: absolute; z-index:9999; top: 50%; right: 10px;">Next</button>
 
 <div class="indicators">
     <ui-page-indicators number="{{movies.length}}" active="0" provider="pageIndicators"></ui-page-indicators>
