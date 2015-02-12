@@ -1,8 +1,39 @@
+* {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
 body {
     margin: 0;
     padding: 0;
     background-color: #000;
     color: #efefef;
+}
+
+nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    color: white;
+    padding: 0 16px;
+    font-family: 'Roboto', sans-serif;
+
+    h1 {
+        font-size: 24px;
+        font-weight: 300;
+        margin: 0;
+        line-height: 60px;
+
+        span {
+            color: rgb(252, 100, 4);
+        }
+    }
 }
 
 .movies {
