@@ -1,2 +1,5 @@
 node_modules
 bower_components
+cordova/platforms
+cordova/plugins
+cordova/www

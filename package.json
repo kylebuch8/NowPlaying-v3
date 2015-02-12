@@ -9,8 +9,9 @@
   "author": "",
   "license": "BSD-2-Clause",
   "dependencies": {
-    "gulp": "~3.8.10",
     "browser-sync": "~1.8.0",
-    "gulp-less": "~2.0.1"
+    "gulp": "~3.8.10",
+    "gulp-less": "~2.0.1",
+    "rimraf": "^2.2.8"
   }
 }

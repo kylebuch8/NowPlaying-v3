@@ -42,7 +42,7 @@ nav h1 span {
   display: -webkit-flex;
   display: flex;
   position: absolute;
-  background-color: #3ba5db;
+  background-color: black;
   background-size: cover;
   background-position: center;
   width: 100%;
