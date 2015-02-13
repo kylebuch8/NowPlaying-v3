@@ -3,42 +3,16 @@
 </nav>
 
 <ui-animated-pages class="movies" page-indicators="pageIndicators">
-    <div class="movie show" style="background-image: url(images/poster_bg.jpg);">
+    <div class="movie" ng-class="{'show': $first}" ng-style="{'background-image': 'url({{movie.background}})'};" ng-repeat="movie in movies">
         <div class="movie-content">
             <div class="poster">
-                <div class="poster-bg" style="background-image: url(images/poster.jpg);">
-                    <img src="images/poster.jpg">
+                <div class="poster-bg" ng-style="{'background-image': 'url({{movie.poster}})'}">
+                    <img ng-src="{{movie.poster}}">
                 </div>
             </div>
             <div class="title">
-                <h1>How to Train Your Dragon 2</h1>
-                <div class="score">92%</div>
-            </div>
-        </div>
-    </div>
-    <div class="movie" style="background-image: url(images/spongebob_bg.jpg);">
-        <div class="movie-content">
-            <div class="poster">
-                <div class="poster-bg" style="background-image: url(images/spongebob.jpg);">
-                    <img src="images/spongebob.jpg">
-                </div>
-            </div>
-            <div class="title">
-                <h1>The SpongeBob Movie: Sponge Out of Water</h1>
-                <div class="score">75%</div>
-            </div>
-        </div>
-    </div>
-    <div class="movie" style="background-image: url(images/mockingjay_bg.jpg);">
-        <div class="movie-content">
-            <div class="poster">
-                <div class="poster-bg" style="background-image: url(images/mockingjay.jpg);">
-                    <img src="images/mockingjay.jpg">
-                </div>
-            </div>
-            <div class="title">
-                <h1>The Hunger Games: Mockingjay - Part 1</h1>
-                <div class="score">65%</div>
+                <h1>{{movie.title}}</h1>
+                <div class="score">{{movie.score}}</div>
             </div>
         </div>
     </div>

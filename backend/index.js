@@ -15,11 +15,18 @@ http.get('http://content9.flixster.com/movie/11/18/98/11189899_det.jpg', functio
     res.on('end', function () {
         fs.writeFileSync(output, data, 'binary');
         gm(output)
-            .blur(40, 10)
-            .write(__dirname + '/blur.jpg', function (error) {
-                if (error) {
-                    console.log(error);
-                }
-            });
+            .identify(function (err, format) {
+                var size = format.size;
+
+                gm(output)
+                    .blur(10, 2)
+                    .fill('#00000099')
+                    .drawRectangle(0, 0, size.width, size.height)
+                    .write(__dirname + '/blur.jpg', function (error) {
+                        if (error) {
+                            console.log(error);
+                        }
+                    });
+            })
     });
 });
