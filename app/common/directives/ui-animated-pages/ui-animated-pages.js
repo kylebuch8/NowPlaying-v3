@@ -46,7 +46,7 @@
                 /*
                  * we want to prevent any scrolling on the body
                  */
-                document.body.addEventListener('touchstart', preventScroll);
+                document.body.addEventListener('touchmove', preventScroll);
 
                 /*
                  * listen for when the page resizes so we can
@@ -55,7 +55,7 @@
                 window.addEventListener('resize', windowResize);
 
                 scope.$on('$destroy', function () {
-                    document.body.removeEventListener('touchstart', preventScroll);
+                    document.body.removeEventListener('touchmove', preventScroll);
                     window.removeEventListener('resize', windowResize);
                 });
 
@@ -187,8 +187,8 @@
                     angular.element(pages[current]).addClass('show');
                 }
 
-                previousBtn.addEventListener('click', previousBtnClickHandler);
-                nextBtn.addEventListener('click', nextBtnClickHandler);
+                // previousBtn.addEventListener('click', previousBtnClickHandler);
+                // nextBtn.addEventListener('click', nextBtnClickHandler);
             }
 
             return {

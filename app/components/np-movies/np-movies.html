@@ -3,20 +3,22 @@
 </nav>
 
 <ui-animated-pages class="movies" page-indicators="pageIndicators">
-    <div class="movie" ng-class="{'show': $first}" ng-style="{'background-image': 'url({{movie.background}})'};" ng-repeat="movie in movies">
+    <div class="movie page" ng-class="{'show': $first}" ng-style="{'background-image': 'url({{movie.background}})'};" ng-repeat="movie in movies">
         <div class="movie-content">
             <div class="poster">
-                <div class="poster-bg" ng-style="{'background-image': 'url({{movie.poster}})'}">
+                <div class="poster-bg" ng-style="{'background-image': 'url({{movie.poster}})'}" ng-click="goToMovie()">
                     <img ng-src="{{movie.poster}}">
                 </div>
             </div>
-            <div class="title">
+            <div class="title" ng-click="goToMovie()">
                 <h1>{{movie.title}}</h1>
                 <div class="score">{{movie.score}}</div>
             </div>
         </div>
     </div>
 </ui-animated-pages>
+
+<button ng-click="goToMovie()">button</button>
 
 <div class="indicators">
     <ui-page-indicators number="{{movies.length}}" active="0" provider="pageIndicators"></ui-page-indicators>

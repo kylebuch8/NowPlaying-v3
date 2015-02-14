@@ -16,8 +16,12 @@
                 });
         }])
 
-        .controller('NpMoviesController', ['$scope', '$uiPageIndicators', function ($scope, $uiPageIndicators) {
+        .controller('NpMoviesController', ['$scope', '$location', '$uiPageIndicators', function ($scope, $location, $uiPageIndicators) {
             $scope.pageIndicators = $uiPageIndicators.getInstance();
+
+            $scope.goToMovie = function () {
+                $location.path('/movie');
+            };
 
             $scope.movies = [
                 {
