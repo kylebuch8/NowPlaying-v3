@@ -1,8 +1,15 @@
 (function () {
     'use strict';
-    
-    /*global angular*/
+
+    /*global angular, FastClick*/
     angular.module('nowPlaying', [
-        'npMovies'
+        'npMovies',
+        'npMovie'
     ]);
+
+    if ('addEventListener' in document) {
+        document.addEventListener('DOMContentLoaded', function() {
+            FastClick.attach(document.body);
+        }, false);
+    }
 }());
