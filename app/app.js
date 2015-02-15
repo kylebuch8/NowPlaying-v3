@@ -3,6 +3,7 @@
 
     /*global angular, FastClick*/
     angular.module('nowPlaying', [
+        'ngAnimate',
         'npMovies',
         'npMovie'
     ]);

@@ -4,6 +4,12 @@
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
 }
+html,
+body,
+ng-view,
+.page-movies {
+  height: 100%;
+}
 body {
   margin: 0;
   padding: 0;
@@ -72,6 +78,9 @@ nav h1 span {
   padding: 12px;
   width: 100%;
 }
+.movie .poster {
+  height: 500px;
+}
 .movie .poster .poster-bg {
   width: 100%;
   background-size: contain;
@@ -102,6 +111,10 @@ nav h1 span {
 .no-touch .movie,
 .no-touch .movie.hide {
   transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+.no-touch .movie.detail {
+  -webkit-transform: none;
+  transform: none;
 }
 .movie.right {
   z-index: 2;
@@ -135,13 +148,24 @@ nav h1 span {
   -webkit-transition: -webkit-transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
   transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
 }
+.page {
+  position: relative;
+}
+.page-movie-detail {
+  background-color: white;
+}
 .movie.detail {
   padding-top: 60px;
+}
+.movie.detail .poster {
+  height: auto;
 }
 .content {
   background: white;
   color: #333;
   padding: 16px;
+  max-width: 900px;
+  margin: auto;
 }
 .content h2 {
   font-weight: 300;
@@ -183,4 +207,12 @@ ui-page-indicators .circle {
 }
 ui-page-indicators .circle.active {
   background-color: white;
+}
+@media (min-width: 600px) {
+  .movie .title h1 {
+    font-size: 30px;
+  }
+  .movie .title .score {
+    font-size: 90px;
+  }
 }

@@ -5,6 +5,13 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+html,
+body,
+ng-view,
+.page-movies {
+    height: 100%;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -14,6 +21,26 @@ body {
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
 }
+
+// ng-view {
+//     position: absolute;
+//     top: 0;
+//     left: 0;
+//     bottom: 0;
+//     right: 0;
+//     opacity: 1;
+//     transition: opacity 0.1s ease-in-out;
+// }
+//
+// ng-view.ng-enter {
+//     opacity: 0;
+//     z-index: 9999;
+// }
+//
+// ng-view.ng-leave {
+//     opacity: 0;
+//     z-index: 8888;
+// }
 
 nav {
     position: absolute;
@@ -82,6 +109,7 @@ nav {
     }
 
     .poster {
+        height: 500px;
 
         .poster-bg {
             width: 100%;
@@ -123,6 +151,11 @@ nav {
     transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
+.no-touch .movie.detail {
+    -webkit-transform: none;
+    transform: none;
+}
+
 .movie.right {
     z-index: 2;
     opacity: 1;
@@ -161,14 +194,28 @@ nav {
     transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
 }
 
+.page {
+    position: relative;
+}
+
+.page-movie-detail {
+    background-color: white;
+}
+
 .movie.detail {
     padding-top: 60px;
+
+    .poster {
+        height: auto;
+    }
 }
 
 .content {
     background: white;
     color: #333;
     padding: 16px;
+    max-width: 900px;
+    margin: auto;
 
     h2 {
         font-weight: 300;
@@ -216,6 +263,20 @@ ui-page-indicators {
 
         &.active {
             background-color: white;
+        }
+    }
+}
+
+@media (min-width: 600px) {
+    .movie {
+        .title {
+            h1 {
+                font-size: 30px;
+            }
+
+            .score {
+                font-size: 90px;
+            }
         }
     }
 }
