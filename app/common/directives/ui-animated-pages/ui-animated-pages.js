@@ -6,14 +6,12 @@
         .directive('uiAnimatedPages', ['$timeout', function ($timeout) {
 
             function init(scope, element) {
-                var previousBtn = document.getElementById('previous'),
-                    nextBtn = document.getElementById('next'),
-                    pages = element.children(),
+                var pages = element.children(),
                     current = 0,
                     start,
                     difference,
                     width = element[0].clientWidth,
-                    threshold = 0.25;
+                    threshold = 100;
 
                 function getNext() {
                     var next = current + 1;
@@ -60,7 +58,7 @@
                 });
 
                 element[0].addEventListener('transitionend', function (event) {
-                    angular.element(event.target).removeClass('animate show-back hide-back hide');
+                    event.target.classList.remove('animate', 'show-back', 'hide-back', 'hide');
                     event.target.style.zIndex = null;
                 });
 
@@ -85,14 +83,14 @@
 
                         pages[getNext()].style.WebkitTransform = 'scale(' + (0.75 + scale) + ')';
                         pages[getNext()].style.transform = 'scale(' + (0.75 + scale) + ')';
-                        pages[getNext()].style.opacity = Math.abs(difference / width);
+                        pages[getNext()].style.opacity = Math.abs(difference / width).toFixed(2);
                     } else {
                         /*
                          * we're moving to the right
                          */
                         pages[current].style.WebkitTransform = 'scale(' + (1 - scale) + ')';
                         pages[current].style.transform = 'scale(' + (1 - scale) + ')';
-                        pages[current].style.opacity = 1 - Math.abs(difference / width);
+                        pages[current].style.opacity = 1 - Math.abs(difference / width).toFixed(2);
 
                         pages[getPrevious()].style.zIndex = 2;
                         pages[getPrevious()].style.opacity = 1;
@@ -119,7 +117,7 @@
                             /*
                              * we're moving left
                              */
-                            if (Math.abs(difference / width) >= threshold) {
+                            if (Math.abs(difference) >= threshold) {
                                 angular.element(pages[current]).removeClass('show').addClass('hide');
                                 angular.element(pages[getNext()]).addClass('show animate');
 
@@ -140,7 +138,7 @@
                             /*
                              * we're moving right
                              */
-                             if (Math.abs(difference / width) >= threshold) {
+                             if (Math.abs(difference) >= threshold) {
                                  angular.element(pages[current]).removeClass('show').addClass('animate hide-back');
                                  angular.element(pages[getPrevious()]).addClass('animate show-back show');
 
@@ -161,34 +159,6 @@
                         difference = 0;
                     }
                 });
-
-                function nextBtnClickHandler() {
-                    angular.element(pages[current]).removeClass('show').addClass('hide');
-
-                    current += 1;
-
-                    if (current === pages.length) {
-                        current = 0;
-                    }
-
-                    angular.element(pages[current]).addClass('show');
-                }
-
-                function previousBtnClickHandler() {
-                    angular.element(pages[current]).removeClass('show').addClass('hide-back');
-                    angular.element(pages[getPrevious()]).addClass('left');
-
-                    current -= 1;
-
-                    if (current === -1) {
-                        current = pages.length - 1;
-                    }
-
-                    angular.element(pages[current]).addClass('show');
-                }
-
-                // previousBtn.addEventListener('click', previousBtnClickHandler);
-                // nextBtn.addEventListener('click', nextBtnClickHandler);
             }
 
             return {

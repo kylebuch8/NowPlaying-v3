@@ -21,6 +21,7 @@ body,
 ng-view,
 .page-movies {
     height: 100%;
+    overflow: hidden;
 }
 
 body {
@@ -43,8 +44,8 @@ ng-view {
     top: 0;
     left: 0;
     width: 100%;
-    -webkit-transition: opacity 0.4s ease-out;
-    transition: opacity 0.4s ease-out;
+    -webkit-transition: opacity .4s ease-out;
+    transition: opacity .4s ease-out;
     will-change: opacity;
 }
 
@@ -72,13 +73,10 @@ ng-view {
 }
 
 .detail.ng-animate {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+    position: relative;
     z-index: 8889;
-    -webkit-transition: -webkit-transform 0.4s ease-out;
-    transition: transform 0.4s ease-out;
+    -webkit-transition: -webkit-transform .4s ease-out;
+    transition: transform .4s ease-out;
     will-change: transform;
 }
 
@@ -142,6 +140,8 @@ nav {
     height: 100%;
     opacity: 0;
     z-index: 0;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
     -webkit-transform: translate3d(0, 0, 0) scale(0.75);
     transform: translate3d(0, 0, 0) scale(0.75);
     will-change: transform, opacity;
