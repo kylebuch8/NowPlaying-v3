@@ -11,7 +11,11 @@
                 });
         }])
 
-        .controller('MovieController', ['$scope', function ($scope) {
-            
+        .controller('MovieController', ['$scope', '$location', function ($scope, $location) {
+            $scope.animation = 'detail';
+
+            $scope.goBack = function () {
+                $location.path('/');
+            };
         }]);
 }());

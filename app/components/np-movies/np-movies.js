@@ -17,6 +17,7 @@
         }])
 
         .controller('NpMoviesController', ['$scope', '$location', '$uiPageIndicators', function ($scope, $location, $uiPageIndicators) {
+            $scope.animation = 'home';
             $scope.pageIndicators = $uiPageIndicators.getInstance();
 
             $scope.goToMovie = function () {

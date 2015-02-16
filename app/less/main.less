@@ -5,6 +5,17 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+:after,
+:before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
 html,
 body,
 ng-view,
@@ -22,25 +33,76 @@ body {
     text-rendering: optimizeLegibility;
 }
 
-// ng-view {
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     bottom: 0;
-//     right: 0;
-//     opacity: 1;
-//     transition: opacity 0.1s ease-in-out;
-// }
-//
-// ng-view.ng-enter {
-//     opacity: 0;
-//     z-index: 9999;
-// }
-//
-// ng-view.ng-leave {
-//     opacity: 0;
-//     z-index: 8888;
-// }
+ng-view {
+    display: block;
+}
+
+.home.ng-animate {
+    position: absolute;
+    z-index: 8888;
+    top: 0;
+    left: 0;
+    width: 100%;
+    -webkit-transition: opacity 0.4s ease-out;
+    transition: opacity 0.4s ease-out;
+    will-change: opacity;
+}
+
+.home.ng-enter {
+    opacity: 0;
+}
+
+.home.ng-enter-active {
+    opacity: 1;
+}
+
+.home.ng-leave {
+    -webkit-transition-timing-function: ease-in;
+    transition-timing-function: ease-in;
+    opacity: 1;
+}
+
+.home.ng-leave-active {
+    opacity: 0;
+}
+
+.detail {
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+.detail.ng-animate {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 8889;
+    -webkit-transition: -webkit-transform 0.4s ease-out;
+    transition: transform 0.4s ease-out;
+    will-change: transform;
+}
+
+.detail.ng-enter {
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+}
+
+.detail.ng-enter-active {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.detail.ng-leave {
+    -webkit-transition-timing-function: ease-in;
+    transition-timing-function: ease-in;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.detail.ng-leave-active {
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+}
 
 nav {
     position: absolute;
@@ -204,6 +266,7 @@ nav {
 
 .movie.detail {
     padding-top: 60px;
+    overflow: hidden;
 
     .poster {
         height: auto;
