@@ -3,6 +3,7 @@ var fs = require('fs');
 var http = require('http');
 var q = require('q');
 var awsConfig = require('./aws-config.json');
+var rottenTomatoesConfig = require('./rottentomatoes-config.json');
 var AWS = require('aws-sdk');
 
 AWS.config.update(awsConfig);
@@ -51,7 +52,9 @@ function uploadImage(dataObj) {
  * 4. upload the blurred image to amazon
  */
 function generatePosterImage(posterUrl, fileName) {
-    var deferred = q.defer();
+    var originalImagePromise = q.defer();
+    var blurredImagePromise = q.defer();
+    var promises = [originalImagePromise.promise, blurredImagePromise.promise];
     var output = __dirname + '/images/' + fileName + '.jpg';
     var blurredOutput = __dirname + '/images/' + fileName + '_blur.jpg';
 
@@ -78,6 +81,8 @@ function generatePosterImage(posterUrl, fileName) {
                         uploadImage({
                             fileName: fileName + '.jpg',
                             buffer: buffer
+                        }).then(function (data) {
+                            originalImagePromise.resolve('https://s3.amazonaws.com/nowplaying-v3/' + fileName + '.jpg');
                         });
                     });
                 })
@@ -100,6 +105,8 @@ function generatePosterImage(posterUrl, fileName) {
                                 uploadImage({
                                     fileName: fileName + '_blur.jpg',
                                     buffer: buffer
+                                }).then(function (data) {
+                                    blurredImagePromise.resolve('https://s3.amazonaws.com/nowplaying-v3/' + fileName + '_blur.jpg');
                                 });
                             });
                         });
@@ -107,7 +114,7 @@ function generatePosterImage(posterUrl, fileName) {
         });
     });
 
-    return deferred.promise;
+    return q.all(promises);
 }
 
 function generateAllMoviePosters(movies) {
@@ -118,7 +125,11 @@ function generateAllMoviePosters(movies) {
 
         movie.posters = setMoviePosters(movie.posters);
         generatePosterImage(movie.posters.detailed, movie.id).then(function (data) {
-            movie.images = data;
+            movie.images = {
+                poster: data[0],
+                bg: data[1]
+            };
+
             deferred.resolve(movie);
         });
 
@@ -131,7 +142,7 @@ function generateAllMoviePosters(movies) {
 
 function getMovies() {
     var deferred = q.defer();
-    var rottenTomatoesApiKey = 'qdcwaccyw2tbd5yyk27mdfw2';
+    var rottenTomatoesApiKey = rottenTomatoesConfig.apiKey;
     var rottenTomatoesInTheatersUrl = 'http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json?apikey=' + rottenTomatoesApiKey;
 
     http.get(rottenTomatoesInTheatersUrl, function (res) {
@@ -154,6 +165,15 @@ function getMovies() {
 getMovies().then(function (result) {
     var movies = result.movies;
     generateAllMoviePosters(movies).then(function (movies) {
-        console.log(movies[0]);
+        var output = __dirname + '/data.json';
+
+        fs.writeFile(output, JSON.stringify(movies, null, 4), function (err) {
+            if (err) {
+                console.log(err);
+                return;
+            }
+
+            console.log('JSON saved to ' + output);
+        });
     });
 });

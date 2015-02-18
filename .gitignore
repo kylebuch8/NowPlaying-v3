@@ -1,7 +1,9 @@
 node_modules
 bower_components
 backend/aws-config.json
+backend/rottentomatoes-config.json
 backend/images
+backend/data.json
 cordova/platforms
 cordova/plugins
 cordova/www
