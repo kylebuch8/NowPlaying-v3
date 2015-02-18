@@ -2,11 +2,11 @@ var gm = require('gm');
 var fs = require('fs');
 var http = require('http');
 var q = require('q');
-var awsConfig = require('./aws-config.json');
-var rottenTomatoesConfig = require('./rottentomatoes-config.json');
+var config = require('./config.json');
 var AWS = require('aws-sdk');
+var youtube = require('./youtube.js');
 
-AWS.config.update(awsConfig);
+AWS.config.update(config.aws);
 
 var s3 = new AWS.S3();
 
@@ -140,9 +140,26 @@ function generateAllMoviePosters(movies) {
     return q.all(promises);
 }
 
+function getYoutubeMovieIds(movies) {
+    var promises = [];
+
+    movies.forEach(function (movie) {
+        var deferred = q.defer();
+
+        youtube.getYoutubeTrailerId(movie.title).then(function (youtubeId) {
+            movie.youtubeId = youtubeId;
+            deferred.resolve(movie);
+        });
+
+        promises.push(deferred.promise);
+    });
+
+    return q.all(promises);
+}
+
 function getMovies() {
     var deferred = q.defer();
-    var rottenTomatoesApiKey = rottenTomatoesConfig.apiKey;
+    var rottenTomatoesApiKey = config.rottenTomatoes.apiKey;
     var rottenTomatoesInTheatersUrl = 'http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json?apikey=' + rottenTomatoesApiKey;
 
     http.get(rottenTomatoesInTheatersUrl, function (res) {
@@ -164,16 +181,18 @@ function getMovies() {
 
 getMovies().then(function (result) {
     var movies = result.movies;
-    generateAllMoviePosters(movies).then(function (movies) {
-        var output = __dirname + '/data.json';
+    generateAllMoviePosters(movies)
+        .then(getYoutubeMovieIds)
+        .then(function (movies) {
+            var output = __dirname + '/data.json';
 
-        fs.writeFile(output, JSON.stringify(movies, null, 4), function (err) {
-            if (err) {
-                console.log(err);
-                return;
-            }
+            fs.writeFile(output, JSON.stringify(movies, null, 4), function (err) {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
 
-            console.log('JSON saved to ' + output);
+                console.log('JSON saved to ' + output);
+            });
         });
-    });
 });
