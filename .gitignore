@@ -1,5 +1,7 @@
 node_modules
 bower_components
+backend/aws-config.json
+backend/images
 cordova/platforms
 cordova/plugins
 cordova/www
