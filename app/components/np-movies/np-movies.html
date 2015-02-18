@@ -3,23 +3,25 @@
         <h1><i><span>Now</span></i> Playing</h1>
     </nav>
 
-    <ui-animated-pages class="movies" page-indicators="pageIndicators">
-        <div class="movie page" ng-class="{'show': $first}" ng-style="{'background-image': 'url({{::movie.background}})'};" ng-repeat="movie in movies">
-            <div class="movie-content">
-                <div class="poster">
-                    <div class="poster-bg" ng-style="{'background-image': 'url({{::movie.poster}})'}" ng-click="goToMovie()">
-                        <img ng-src="{{::movie.poster}}">
+    <div ng-if="movies.length">
+        <ui-animated-pages class="movies" page-indicators="pageIndicators">
+            <div class="movie page" ng-class="{'show': $first}" ng-style="{'background-image': 'url({{::movie.images.bg}})'};" ng-repeat="movie in movies">
+                <div class="movie-content">
+                    <div class="poster">
+                        <div class="poster-bg" ng-style="{'background-image': 'url({{::movie.images.poster}})'}" ng-click="goToMovie()">
+                            <img ng-src="{{::movie.images.poster}}">
+                        </div>
+                    </div>
+                    <div class="title" ng-click="goToMovie()">
+                        <h1>{{::movie.title}}</h1>
+                        <div class="score">{{::movie.ratings.critics_score}}%</div>
                     </div>
                 </div>
-                <div class="title" ng-click="goToMovie()">
-                    <h1>{{::movie.title}}</h1>
-                    <div class="score">{{::movie.score}}</div>
-                </div>
             </div>
-        </div>
-    </ui-animated-pages>
+        </ui-animated-pages>
 
-    <div class="indicators">
-        <ui-page-indicators number="{{movies.length}}" active="0" provider="pageIndicators"></ui-page-indicators>
+        <div class="indicators">
+            <ui-page-indicators number="{{movies.length}}" active="0" provider="pageIndicators"></ui-page-indicators>
+        </div>
     </div>
 </div>

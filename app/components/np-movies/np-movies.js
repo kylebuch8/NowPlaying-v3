@@ -16,7 +16,7 @@
                 });
         }])
 
-        .controller('NpMoviesController', ['$scope', '$location', '$uiPageIndicators', function ($scope, $location, $uiPageIndicators) {
+        .controller('NpMoviesController', ['$scope', '$http', '$location', '$uiPageIndicators', function ($scope, $http, $location, $uiPageIndicators) {
             $scope.animation = 'home';
             $scope.pageIndicators = $uiPageIndicators.getInstance();
 
@@ -24,31 +24,9 @@
                 $location.path('/movie');
             };
 
-            $scope.movies = [
-                {
-                    title: 'How to Train Your Dragon 2',
-                    score: '92%',
-                    poster: 'images/poster.jpg',
-                    background: 'images/poster_bg.jpg'
-                },
-                {
-                    title: 'The SpongeBob Movie: Sponge Out of Water',
-                    score: '75%',
-                    poster: 'images/spongebob.jpg',
-                    background: 'images/spongebob_bg.jpg'
-                },
-                {
-                    title: 'The Hunger Games: Mockingjay - Part 1',
-                    score: '65%',
-                    poster: 'images/mockingjay.jpg',
-                    background: 'images/mockingjay_bg.jpg'
-                },
-                {
-                    title: 'Jupiter Ascending',
-                    score: '22%',
-                    poster: 'images/jupiter.jpg',
-                    background: 'images/jupiter_bg.jpg'
-                }
-            ];
+            $http.get('data/data.json')
+                .success(function (data) {
+                    $scope.movies = data;
+                });
         }]);
 }());

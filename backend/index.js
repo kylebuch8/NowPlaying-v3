@@ -98,7 +98,7 @@ function generatePosterImage(posterUrl, fileName) {
                             var buffer = new Buffer(0);
 
                             stdout.on('data', function (d) {
-                                buf = Buffer.concat([buffer, d]);
+                                buffer = Buffer.concat([buffer, d]);
                             });
 
                             stdout.on('end', function () {
