@@ -30,8 +30,8 @@ body {
     background-color: #000;
     color: #efefef;
     font-family: 'Roboto', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
+    // -webkit-font-smoothing: antialiased;
+    // text-rendering: optimizeLegibility;
 }
 
 ng-view {
@@ -362,6 +362,10 @@ nav {
         padding-top: 0;
     }
 
+    &.last {
+        border-bottom: 0;
+    }
+
     .character {
         color: #999;
     }
@@ -385,9 +389,9 @@ ui-page-indicators {
     .circle {
         display: inline-block;
         background-color: rgba(255, 255, 255, 0.5);
-        width: 10px;
-        height: 10px;
-        margin: 3px;
+        width: 8px;
+        height: 8px;
+        margin: 4px;
         border-radius: 50%;
         transition: background-color 0.5s ease;
 

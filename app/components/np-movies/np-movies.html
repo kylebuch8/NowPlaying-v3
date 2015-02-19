@@ -56,7 +56,7 @@
         <section>
             <h2>Cast</h2>
 
-            <div class="cast-member" ng-class="{'first': $first}" ng-repeat="castMember in movie.abridged_cast">
+            <div class="cast-member" ng-class="{'first': $first, 'last': $last}" ng-repeat="castMember in movie.abridged_cast">
                 <div class="actor">{{castMember.name}}</div>
                 <div class="character">
                     <span ng-repeat="character in castMember.characters">
