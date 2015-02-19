@@ -2,6 +2,20 @@
     'use strict';
 
     /*global angular*/
+    function UiAnimatedPages() {
+        function preventScroll(event) {
+            event.preventDefault();
+        }
+        
+        this.enableScroll = function () {
+            document.body.removeEventListener('touchmove', preventScroll);
+        }
+
+        this.disableScroll = function () {
+            document.body.addEventListener('touchmove', preventScroll);
+        }
+    }
+
     angular.module('directives.uiAnimatedPages', [])
         .directive('uiAnimatedPages', ['$timeout', function ($timeout) {
 
@@ -44,7 +58,7 @@
                 /*
                  * we want to prevent any scrolling on the body
                  */
-                document.body.addEventListener('touchmove', preventScroll);
+                //document.body.addEventListener('touchmove', preventScroll);
 
                 /*
                  * listen for when the page resizes so we can
@@ -173,5 +187,13 @@
 
                 }
             };
-        }]);
+        }])
+
+        .service('$uiAnimatedPages', [function () {
+            return {
+                getInstance: function () {
+                    return new UiAnimatedPages();
+                }
+            };
+        }]);;
 }());
