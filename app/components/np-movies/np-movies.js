@@ -29,6 +29,16 @@
 
                 $scope.uiAnimatedPages.disableScroll();
 
+                function getDuration(runtime) {
+                    var hours = Math.floor(runtime / 60),
+                        minutes = runtime % 60;
+
+                    return {
+                        hours: hours,
+                        minutes: minutes
+                    };
+                }
+
                 $scope.goToMovie = function () {
                     $scope.movie = $scope.movies[$scope.pageIndicators.active];
                     $scope.displayMovie = true;
@@ -42,8 +52,13 @@
                 };
 
                 $http.get('data/data.json')
-                    .success(function (data) {
-                        $scope.movies = data;
+                    .success(function (movies) {
+                        movies.forEach(function (movie) {
+                            var duration = getDuration(movie.runtime);
+                            movie.duration = duration.hours + 'h ' + duration.minutes + 'm';
+                        });
+
+                        $scope.movies = movies;
                     });
         }]);
 }());
