@@ -15,6 +15,7 @@
                     <div class="title" ng-click="goToMovie()">
                         <h1>{{::movie.title}}</h1>
                         <div class="score">{{::movie.ratings.critics_score}}%</div>
+                        <div><strong>{{::movie.mpaa_rating}}, {{::movie.duration}}</strong></div>
                     </div>
                 </div>
             </div>
@@ -23,5 +24,47 @@
         <div class="indicators">
             <ui-page-indicators number="{{movies.length}}" active="0" provider="pageIndicators"></ui-page-indicators>
         </div>
+    </div>
+</div>
+
+<div class="page page-movie-detail" ng-show="displayMovie">
+    <nav>
+        <h1 style="display: inline-block;" ng-click="goBack()">Back</h1>
+    </nav>
+
+    <div class="movie detail" style="background-image: url({{movie.images.bg}});">
+        <div class="movie-content">
+            <div class="poster">
+                <div class="poster-bg" style="background-image: url({{movie.images.poster}});">
+                    <img ng-src="{{movie.images.poster}}">
+                </div>
+            </div>
+            <div class="title">
+                <h1>{{movie.title}}</h1>
+                <div class="score">{{movie.ratings.critics_score}}%</div>
+                <div><strong>{{::movie.mpaa_rating}}, {{::movie.duration}}</strong></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <section>
+            <h2>Synopsis</h2>
+            <p>{{movie.synopsis}}</p>
+        </section>
+
+        <section>
+            <h2>Cast</h2>
+
+            <div class="cast-member" ng-class="{'first': $first, 'last': $last}" ng-repeat="castMember in movie.abridged_cast">
+                <div class="actor">{{castMember.name}}</div>
+                <div class="character">
+                    <span ng-repeat="character in castMember.characters">
+                        {{character}}
+                        <span ng-show="!$last">,&nbsp;</span>
+                    </span>
+                </div>
+            </div>
+        </section>
     </div>
 </div>

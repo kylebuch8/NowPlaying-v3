@@ -16,17 +16,49 @@
                 });
         }])
 
-        .controller('NpMoviesController', ['$scope', '$http', '$location', '$uiPageIndicators', function ($scope, $http, $location, $uiPageIndicators) {
-            $scope.animation = 'home';
-            $scope.pageIndicators = $uiPageIndicators.getInstance();
+        .controller('NpMoviesController', [
+            '$scope',
+            '$http',
+            '$location',
+            '$uiAnimatedPages',
+            '$uiPageIndicators',
+            function ($scope, $http, $location, $uiAnimatedPages, $uiPageIndicators) {
+                $scope.animation = 'home';
+                $scope.uiAnimatedPages = $uiAnimatedPages.getInstance();
+                $scope.pageIndicators = $uiPageIndicators.getInstance();
 
-            $scope.goToMovie = function () {
-                $location.path('/movie');
-            };
+                $scope.uiAnimatedPages.disableScroll();
 
-            $http.get('data/data.json')
-                .success(function (data) {
-                    $scope.movies = data;
-                });
+                function getDuration(runtime) {
+                    var hours = Math.floor(runtime / 60),
+                        minutes = runtime % 60;
+
+                    return {
+                        hours: hours,
+                        minutes: minutes
+                    };
+                }
+
+                $scope.goToMovie = function () {
+                    $scope.movie = $scope.movies[$scope.pageIndicators.active];
+                    $scope.displayMovie = true;
+
+                    $scope.uiAnimatedPages.enableScroll();
+                };
+
+                $scope.goBack = function() {
+                    $scope.displayMovie = false;
+                    $scope.uiAnimatedPages.disableScroll();
+                };
+
+                $http.get('data/data.json')
+                    .success(function (movies) {
+                        movies.forEach(function (movie) {
+                            var duration = getDuration(movie.runtime);
+                            movie.duration = duration.hours + 'h ' + duration.minutes + 'm';
+                        });
+
+                        $scope.movies = movies;
+                    });
         }]);
 }());
