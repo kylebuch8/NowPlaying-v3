@@ -54,7 +54,8 @@ function uploadImage(dataObj) {
 function generatePosterImage(posterUrl, fileName) {
     var originalImagePromise = q.defer();
     var blurredImagePromise = q.defer();
-    var promises = [originalImagePromise.promise, blurredImagePromise.promise];
+    var darkenedImagePromise = q.defer();
+    var promises = [originalImagePromise.promise, blurredImagePromise.promise, darkenedImagePromise.promise];
     var output = __dirname + '/images/' + fileName + '.jpg';
     var blurredOutput = __dirname + '/images/' + fileName + '_blur.jpg';
 
@@ -110,6 +111,26 @@ function generatePosterImage(posterUrl, fileName) {
                                 });
                             });
                         });
+
+                    gm(output)
+                        .fill('#00000099')
+                        .drawRectangle(0, 0, size.width, size.height)
+                        .stream(function (err, stdout, stderr) {
+                            var buffer = new Buffer(0);
+
+                            stdout.on('data', function (d) {
+                                buffer = Buffer.concat([buffer, d]);
+                            });
+
+                            stdout.on('end', function () {
+                                uploadImage({
+                                    fileName: fileName + '_poster_bg.jpg',
+                                    buffer: buffer
+                                }).then(function (data) {
+                                    darkenedImagePromise.resolve('https://s3.amazonaws.com/nowplaying-v3/' + fileName + '_poster_bg.jpg');
+                                });
+                            });
+                        });
                 });
         });
     });
@@ -127,7 +148,8 @@ function generateAllMoviePosters(movies) {
         generatePosterImage(movie.posters.detailed, movie.id).then(function (data) {
             movie.images = {
                 poster: data[0],
-                bg: data[1]
+                bg: data[1],
+                posterBg: data[2]
             };
 
             deferred.resolve(movie);
