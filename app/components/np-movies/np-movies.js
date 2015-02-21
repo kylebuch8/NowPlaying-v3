@@ -5,7 +5,8 @@
     angular.module('npMovies', [
         'ngRoute',
         'directives.uiPageIndicators',
-        'directives.uiAnimatedPages'
+        'directives.uiAnimatedPages',
+        'directives.embedVideo'
     ])
 
         .config(['$routeProvider', function ($routeProvider) {

@@ -54,6 +54,11 @@
         </section>
 
         <section>
+            <h2>Trailer</h2>
+            <embed-video youtube-id="movie.youtubeId" ng-if="movie"></embed-video>
+        </section>
+
+        <section>
             <h2>Cast</h2>
 
             <div class="cast-member" ng-class="{'first': $first, 'last': $last}" ng-repeat="castMember in movie.abridged_cast">
