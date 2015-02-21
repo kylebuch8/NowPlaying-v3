@@ -69,6 +69,7 @@ ng-view {
 
 .page-movie-detail {
     top: 0;
+    width: 100%;
     height: 100%;
     position: absolute !important;
     z-index: 9999;
@@ -401,6 +402,21 @@ ui-page-indicators {
     }
 }
 
+.movie.detail {
+    background-color: black;
+
+    .poster-bg {
+        position: relative;
+
+        svg {
+            fill: white;
+            position: absolute;
+            top: ~"calc(50% - 24px)";
+            left: ~"calc(50% - 24px)";
+        }
+    }
+}
+
 embed-video {
     display: block;
     position: relative;
@@ -415,6 +431,56 @@ embed-video {
     	width: 100%;
     	height: 100%;
     }
+}
+
+.svg-ic_close_24px-dims {
+    width: 24px; height: 24px;
+}
+
+.trailer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+
+    .bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.95);
+    }
+
+    embed-video {
+        margin-top: 50%;
+    }
+}
+
+.trailer.ng-animate {
+    -webkit-transition: opacity .4s ease-out;
+    transition: opacity .4s ease-out;
+    will-change: opacity;
+}
+
+.trailer.ng-enter {
+    opacity: 0;
+}
+
+.trailer.ng-enter-active {
+    opacity: 1;
+}
+
+.trailer.ng-leave {
+    -webkit-transition-timing-function: ease-in;
+    transition-timing-function: ease-in;
+    opacity: 1;
+}
+
+.trailer.ng-leave-active {
+    opacity: 0;
 }
 
 @media (min-width: 600px) {

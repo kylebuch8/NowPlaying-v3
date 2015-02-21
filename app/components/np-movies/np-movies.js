@@ -52,6 +52,14 @@
                     $scope.uiAnimatedPages.disableScroll();
                 };
 
+                $scope.showTrailer = function () {
+                    $scope.showingTrailer = true;
+                };
+
+                $scope.hideTrailer = function () {
+                    $scope.showingTrailer = false;
+                };
+
                 $http.get('data/data.json')
                     .success(function (movies) {
                         movies.forEach(function (movie) {

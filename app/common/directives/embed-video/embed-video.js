@@ -11,7 +11,7 @@
                 },
                 template: '<iframe ng-src="{{url}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>',
                 controller: ['$scope', '$sce', function ($scope, $sce) {
-                    $scope.url = $sce.trustAsResourceUrl('//www.youtube.com/embed/' + $scope.youtubeId + '?showinfo=0');
+                    $scope.url = $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + $scope.youtubeId + '?showinfo=0');
                 }]
             };
         }]);
