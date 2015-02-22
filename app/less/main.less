@@ -34,6 +34,14 @@ body {
     // text-rendering: optimizeLegibility;
 }
 
+section {
+    margin-bottom: 60px;
+}
+
+section:last-child {
+    margin-bottom: 0;
+}
+
 ng-view {
     display: block;
 }
@@ -84,7 +92,16 @@ ng-view {
         position: fixed;
 
         svg {
-            fill: white;
+            cursor: pointer;
+
+            circle {
+                fill: white;
+                opacity: 0;
+            }
+
+            path {
+                fill: white;
+            }
         }
     }
 
@@ -251,6 +268,10 @@ nav {
         display: flex;
         -webkit-align-self: center;
         align-self: center;
+    }
+
+    .movie-content {
+        min-height: 285px;
     }
 
     .poster,
@@ -430,6 +451,7 @@ ui-page-indicators {
         position: relative;
 
         svg {
+            cursor: pointer;
             fill: white;
             position: absolute;
             top: ~"calc(50% - 24px)";
@@ -455,7 +477,8 @@ embed-video {
 }
 
 .svg-ic_close_24px-dims {
-    width: 24px; height: 24px;
+    width: 24px;
+    height: 24px;
 }
 
 .trailer {
@@ -472,7 +495,7 @@ embed-video {
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: rgba(0, 0, 0, 0.85);
+        background-color: rgba(0, 0, 0, 0.95);
     }
 
     embed-video {

@@ -27,6 +27,12 @@ body {
   color: #efefef;
   font-family: 'Roboto', sans-serif;
 }
+section {
+  margin-bottom: 60px;
+}
+section:last-child {
+  margin-bottom: 0;
+}
 ng-view {
   display: block;
 }
@@ -47,6 +53,13 @@ ng-view {
   position: fixed;
 }
 .page-movie-detail nav svg {
+  cursor: pointer;
+}
+.page-movie-detail nav svg circle {
+  fill: white;
+  opacity: 0;
+}
+.page-movie-detail nav svg path {
   fill: white;
 }
 .page-movie-detail .scroller {
@@ -189,6 +202,9 @@ nav h1 span {
   display: flex;
   -webkit-align-self: center;
   align-self: center;
+}
+.movie .movie-content {
+  min-height: 285px;
 }
 .movie .poster,
 .movie .title {
@@ -333,6 +349,7 @@ ui-page-indicators .circle.active {
   position: relative;
 }
 .movie.detail .poster-bg svg {
+  cursor: pointer;
   fill: white;
   position: absolute;
   top: calc(50% - 24px);
@@ -370,7 +387,7 @@ embed-video iframe {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.85);
+  background-color: rgba(0, 0, 0, 0.95);
 }
 .trailer embed-video {
   margin-top: 50%;
