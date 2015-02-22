@@ -54,8 +54,7 @@ function uploadImage(dataObj) {
 function generatePosterImage(posterUrl, fileName) {
     var originalImagePromise = q.defer();
     var blurredImagePromise = q.defer();
-    var darkenedImagePromise = q.defer();
-    var promises = [originalImagePromise.promise, blurredImagePromise.promise, darkenedImagePromise.promise];
+    var promises = [originalImagePromise.promise, blurredImagePromise.promise];
     var output = __dirname + '/images/' + fileName + '.jpg';
     var blurredOutput = __dirname + '/images/' + fileName + '_blur.jpg';
 
@@ -108,26 +107,6 @@ function generatePosterImage(posterUrl, fileName) {
                                     buffer: buffer
                                 }).then(function (data) {
                                     blurredImagePromise.resolve('https://s3.amazonaws.com/nowplaying-v3/' + fileName + '_blur.jpg');
-                                });
-                            });
-                        });
-
-                    gm(output)
-                        .fill('#00000099')
-                        .drawRectangle(0, 0, size.width, size.height)
-                        .stream(function (err, stdout, stderr) {
-                            var buffer = new Buffer(0);
-
-                            stdout.on('data', function (d) {
-                                buffer = Buffer.concat([buffer, d]);
-                            });
-
-                            stdout.on('end', function () {
-                                uploadImage({
-                                    fileName: fileName + '_poster_bg.jpg',
-                                    buffer: buffer
-                                }).then(function (data) {
-                                    darkenedImagePromise.resolve('https://s3.amazonaws.com/nowplaying-v3/' + fileName + '_poster_bg.jpg');
                                 });
                             });
                         });
