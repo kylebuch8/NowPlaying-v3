@@ -75,6 +75,27 @@ ng-view {
     z-index: 9999;
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
+
+    nav {
+        display: -webkit-flex;
+        display: flex;
+        -webkit-align-items: center;
+        align-items: center;
+        position: fixed;
+
+        svg {
+            fill: white;
+        }
+    }
+
+    .scroller {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow-y: scroll;
+    }
 }
 
 .page-movie-detail.ng-hide-add,
@@ -451,7 +472,7 @@ embed-video {
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: rgba(0, 0, 0, 0.95);
+        background-color: rgba(0, 0, 0, 0.85);
     }
 
     embed-video {

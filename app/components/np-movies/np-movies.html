@@ -28,45 +28,47 @@
 </div>
 
 <div class="page page-movie-detail" ng-show="displayMovie">
-    <nav style="display: flex; align-items: center;">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="fill: white;" ng-click="goBack()"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg>
+    <nav>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" ng-click="goBack()"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg>
     </nav>
 
-    <div class="movie detail" style="background-image: url({{movie.images.bg}});">
-        <div class="movie-content">
-            <div class="poster">
-                <div class="poster-bg" style="background-image: url({{movie.images.posterBg}});" ng-click="showTrailer();">
-                    <img ng-src="{{movie.images.posterBg}}">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48"><path d="M10 16.5l6-4.5-6-4.5v9z"></path><path d="M12 20c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-18C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"></path></svg>
+    <div class="scroller">
+        <div class="movie detail" style="background-image: url({{movie.images.bg}});">
+            <div class="movie-content">
+                <div class="poster">
+                    <div class="poster-bg" style="background-image: url({{movie.images.posterBg}});" ng-click="showTrailer();">
+                        <img ng-src="{{movie.images.posterBg}}">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48"><path d="M10 16.5l6-4.5-6-4.5v9z"></path><path d="M12 20c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-18C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"></path></svg>
+                    </div>
                 </div>
-            </div>
-            <div class="title">
-                <h1>{{movie.title}}</h1>
-                <div class="score">{{movie.ratings.critics_score}}%</div>
-                <div><strong>{{::movie.mpaa_rating}}, {{::movie.duration}}</strong></div>
+                <div class="title">
+                    <h1>{{movie.title}}</h1>
+                    <div class="score">{{movie.ratings.critics_score}}%</div>
+                    <div><strong>{{::movie.mpaa_rating}}, {{::movie.duration}}</strong></div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="content">
-        <section>
-            <h2>Synopsis</h2>
-            <p>{{movie.synopsis}}</p>
-        </section>
+        <div class="content">
+            <section>
+                <h2>Synopsis</h2>
+                <p>{{movie.synopsis}}</p>
+            </section>
 
-        <section>
-            <h2>Cast</h2>
+            <section>
+                <h2>Cast</h2>
 
-            <div class="cast-member" ng-class="{'first': $first, 'last': $last}" ng-repeat="castMember in movie.abridged_cast">
-                <div class="actor">{{castMember.name}}</div>
-                <div class="character">
-                    <span ng-repeat="character in castMember.characters">
-                        {{character}}
-                        <span ng-show="!$last">,&nbsp;</span>
-                    </span>
+                <div class="cast-member" ng-class="{'first': $first, 'last': $last}" ng-repeat="castMember in movie.abridged_cast">
+                    <div class="actor">{{castMember.name}}</div>
+                    <div class="character">
+                        <span ng-repeat="character in castMember.characters">
+                            {{character}}
+                            <span ng-show="!$last">,&nbsp;</span>
+                        </span>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
     </div>
 
     <div class="trailer" ng-if="showingTrailer" ng-click="hideTrailer();">

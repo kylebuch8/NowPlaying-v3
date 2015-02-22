@@ -39,6 +39,24 @@ ng-view {
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
 }
+.page-movie-detail nav {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  position: fixed;
+}
+.page-movie-detail nav svg {
+  fill: white;
+}
+.page-movie-detail .scroller {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: scroll;
+}
 .page-movie-detail.ng-hide-add,
 .page-movie-detail.ng-hide-remove {
   -webkit-transition: -webkit-transform 0.4s ease-out;
@@ -352,7 +370,7 @@ embed-video iframe {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.95);
+  background-color: rgba(0, 0, 0, 0.85);
 }
 .trailer embed-video {
   margin-top: 50%;
