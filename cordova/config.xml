@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.wheelhouseapps.nowplaying" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>NowPlaying</name>
+    <name>Now Playing</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
     </description>
@@ -11,4 +11,12 @@
     <access origin="*" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="StatusBarStyle" value="lightcontent" />
+    <platform name="android">
+        <icon src="resources/android/ldpi.png" density="ldpi" />
+        <icon src="resources/android/mdpi.png" density="mdpi" />
+        <icon src="resources/android/hdpi.png" density="hdpi" />
+        <icon src="resources/android/xhdpi.png" density="xhdpi" />
+        <icon src="resources/android/xxhdpi.png" density="xxhdpi" />
+        <icon src="resources/android/xxxhdpi.png" density="xxxhdpi" />
+     </platform>
 </widget>
