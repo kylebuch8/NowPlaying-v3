@@ -15,9 +15,13 @@ function setMoviePosters(posters) {
         return;
     }
 
-    posters.profile = posters.profile.replace('_tmb', '_pro');
-    posters.detailed = posters.detailed.replace('_tmb', '_det');
-    posters.original = posters.original.replace('_tmb', '_ori');
+    var regex = /[0-9]{2}x[0-9]{2}\//,
+        url = 'http://' + posters.profile.split(regex)[1];
+
+    posters.original = url;
+    posters.profile = url.replace('_ori', '_pro');
+    posters.detailed = url.replace('_ori', '_det');
+    posters.thumbnail = url.replace('_ori', '_tmb');
 
     return posters;
 }
