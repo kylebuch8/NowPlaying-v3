@@ -45,6 +45,29 @@ function uploadImage(dataObj) {
     return deferred.promise;
 }
 
+function uploadJson(json) {
+    var deferred = q.defer();
+
+    var data = {
+        Bucket: 'nowplaying-v3',
+        Key: 'nowplaying.json',
+        Body: JSON.stringify(json),
+        ContentType: 'application/json'
+    };
+
+    s3.putObject(data, function (err, resp) {
+        if (err) {
+            console.log(err);
+            deferred.reject(new Error(err));
+            return;
+        }
+
+        deferred.resolve(resp);
+    });
+
+    return deferred.promise;
+}
+
 /*
  * 1. download the image first and write it locally
  * 2. upload the original to amazon
@@ -161,7 +184,8 @@ function getYoutubeMovieIds(movies) {
 function getMovies() {
     var deferred = q.defer();
     var rottenTomatoesApiKey = config.rottenTomatoes.apiKey;
-    var rottenTomatoesInTheatersUrl = 'http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json?apikey=' + rottenTomatoesApiKey;
+    var timestamp = new Date().getTime();
+    var rottenTomatoesInTheatersUrl = 'http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json?d=' + timestamp + '&apikey=' + rottenTomatoesApiKey;
 
     http.get(rottenTomatoesInTheatersUrl, function (res) {
         var data = '';
@@ -194,6 +218,10 @@ getMovies().then(function (result) {
                 }
 
                 console.log('JSON saved to ' + output);
+            });
+
+            uploadJson(movies).then(function (data) {
+                console.log('JSON saved to S3');
             });
         });
 });
