@@ -83,7 +83,7 @@
                     $scope.showingTrailer = false;
                 };
 
-                $http.get('data/data.json')
+                $http.get('https://s3.amazonaws.com/nowplaying-v3/nowplaying.json')
                     .success(function (movies) {
                         movies.forEach(function (movie) {
                             /*
