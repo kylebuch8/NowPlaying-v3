@@ -19,6 +19,7 @@ ng-view,
 .page-movies {
   height: 100%;
   overflow: hidden;
+  position: relative;
 }
 body {
   margin: 0;
@@ -40,7 +41,7 @@ ng-view {
   top: 0;
   width: 100%;
   height: 100%;
-  position: absolute !important;
+  position: absolute;
   z-index: 9999;
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
