@@ -45,7 +45,7 @@
 
                 if (window.cordova) {
                     document.addEventListener('backbutton', function (event) {
-                        if ($scope.displayMovie === false) {
+                        if (!$scope.displayMovie) {
                             event.preventDefault();
                             navigator.app.exitApp();
                         } else {
