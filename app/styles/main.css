@@ -213,16 +213,15 @@ nav h1 span {
   width: 100%;
 }
 .movie .poster {
-  height: 500px;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
 }
-.movie .poster .poster-bg {
-  width: 100%;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-.movie .poster .poster-bg img {
-  visibility: hidden;
+.movie .poster img {
+  max-width: 100%;
 }
 .movie .title {
   font-family: 'Roboto Condensed', sans-serif;
@@ -346,15 +345,15 @@ ui-page-indicators .circle.active {
 .movie.detail {
   background-color: black;
 }
-.movie.detail .poster-bg {
+.movie.detail .poster {
   position: relative;
 }
-.movie.detail .poster-bg svg {
+.movie.detail .poster svg {
   cursor: pointer;
   fill: white;
   position: absolute;
-  top: calc(50% - 24px);
-  left: calc(50% - 24px);
+  top: calc(50% - 25px);
+  left: calc(50% - 25px);
 }
 embed-video {
   display: block;

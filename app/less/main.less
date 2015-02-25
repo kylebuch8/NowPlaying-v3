@@ -282,17 +282,15 @@ nav {
     }
 
     .poster {
-        height: 500px;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
 
-        .poster-bg {
-            width: 100%;
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-
-            img {
-                visibility: hidden;
-            }
+        img {
+            max-width: 100%;
         }
     }
 
@@ -448,15 +446,15 @@ ui-page-indicators {
 .movie.detail {
     background-color: black;
 
-    .poster-bg {
+    .poster {
         position: relative;
 
         svg {
             cursor: pointer;
             fill: white;
             position: absolute;
-            top: ~"calc(50% - 24px)";
-            left: ~"calc(50% - 24px)";
+            top: ~"calc(50% - 25px)";
+            left: ~"calc(50% - 25px)";
         }
     }
 }

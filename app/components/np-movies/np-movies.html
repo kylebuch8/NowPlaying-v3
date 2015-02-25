@@ -8,9 +8,7 @@
             <div class="movie page" ng-class="{'show': $first}" ng-style="{'background-image': 'url({{::movie.images.bg}})'};" ng-repeat="movie in movies">
                 <div class="movie-content">
                     <div class="poster">
-                        <div class="poster-bg" ng-style="{'background-image': 'url({{::movie.images.poster}})'}" ng-click="goToMovie()">
-                            <img ng-src="{{::movie.images.poster}}">
-                        </div>
+                        <img ng-src="{{::movie.images.poster}}" ng-click="goToMovie()">
                     </div>
                     <div class="title" ng-click="goToMovie()">
                         <h1>{{::movie.title}}</h1>
@@ -39,14 +37,12 @@
         <div class="movie detail" style="background-image: url({{movie.images.bg}});">
             <div class="movie-content">
                 <div class="poster">
-                    <div class="poster-bg" style="background-image: url({{movie.images.poster}});">
-                        <img ng-src="{{movie.images.poster}}">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" width="50" height="50" ng-click="showTrailer()">
-                            <circle cx="12" cy="12" r="9" fill="rgba(0, 0, 0, 0.8)"/>
-                            <path d="M10 16.5l6-4.5-6-4.5v9z"></path>
-                            <path d="M12 20c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-18C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"></path>
-                        </svg>
-                    </div>
+                    <img ng-src="{{movie.images.poster}}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" width="50" height="50" ng-click="showTrailer()">
+                        <circle cx="12" cy="12" r="9" fill="rgba(0, 0, 0, 0.8)"/>
+                        <path d="M10 16.5l6-4.5-6-4.5v9z"></path>
+                        <path d="M12 20c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-18C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"></path>
+                    </svg>
                 </div>
                 <div class="title">
                     <h1>{{movie.title}}</h1>
