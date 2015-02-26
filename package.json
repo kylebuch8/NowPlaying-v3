@@ -10,7 +10,7 @@
   "license": "BSD-2-Clause",
   "dependencies": {
     "browser-sync": "~1.8.0",
-    "gulp": "~3.8.10",
+    "gulp": "^3.8.11",
     "gulp-less": "~2.0.1",
     "rimraf": "^2.2.8"
   }
