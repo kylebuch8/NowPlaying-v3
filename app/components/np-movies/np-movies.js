@@ -6,7 +6,8 @@
         'ngRoute',
         'directives.uiPageIndicators',
         'directives.uiAnimatedPages',
-        'directives.embedVideo'
+        'directives.embedVideo',
+        'directives.uiNavButton'
     ])
 
         .config(['$routeProvider', function ($routeProvider) {

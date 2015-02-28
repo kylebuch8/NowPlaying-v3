@@ -52,15 +52,23 @@ ng-view {
   -webkit-align-items: center;
   align-items: center;
   position: fixed;
+  padding: 0;
 }
-.page-movie-detail nav svg {
+.page-movie-detail nav button {
+  width: 60px;
+  height: 60px;
+  border: none;
+  background: none;
+  outline: none;
+}
+.page-movie-detail nav button svg {
   cursor: pointer;
 }
-.page-movie-detail nav svg circle {
+.page-movie-detail nav button svg circle {
   fill: white;
   opacity: 0;
 }
-.page-movie-detail nav svg path {
+.page-movie-detail nav button svg path {
   fill: white;
 }
 .page-movie-detail .scroller {

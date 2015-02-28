@@ -6,3 +6,7 @@ nav {
 .movie.detail {
     padding-top: 80px;
 }
+
+.page-movie-detail nav {
+    padding-top: 20px;
+}

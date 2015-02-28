@@ -91,17 +91,26 @@ ng-view {
         -webkit-align-items: center;
         align-items: center;
         position: fixed;
+        padding: 0;
 
-        svg {
-            cursor: pointer;
+        button {
+            width: 60px;
+            height: 60px;
+            border: none;
+            background: none;
+            outline: none;
 
-            circle {
-                fill: white;
-                opacity: 0;
-            }
+            svg {
+                cursor: pointer;
 
-            path {
-                fill: white;
+                circle {
+                    fill: white;
+                    opacity: 0;
+                }
+
+                path {
+                    fill: white;
+                }
             }
         }
     }
