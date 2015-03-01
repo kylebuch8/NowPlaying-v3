@@ -3,6 +3,12 @@
         <h1><i><span>Now</span></i> Playing</h1>
     </nav>
 
+    <div ng-if="loading" class="loader">
+        <svg class="circular">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+        </svg>
+    </div>
+
     <div ng-if="movies.length">
         <ui-animated-pages class="movies" page-indicators="pageIndicators">
             <div class="movie page" ng-class="{'show': $first}" ng-style="{'background-image': 'url({{::movie.images.bg}})'};" ng-repeat="movie in movies">
