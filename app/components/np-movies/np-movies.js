@@ -117,8 +117,11 @@
                     $location.search('view', 'movie');
                 };
 
+                $scope.loading = true;
+
                 $http.get('https://s3.amazonaws.com/nowplaying-v3/nowplaying.json')
                     .success(function (movies) {
+                        $scope.loading = false;
                         movies.forEach(function (movie) {
                             /*
                              * create a duration string for the view based
