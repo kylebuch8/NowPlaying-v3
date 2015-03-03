@@ -7,7 +7,8 @@
         'directives.uiPageIndicators',
         'directives.uiAnimatedPages',
         'directives.embedVideo',
-        'directives.uiNavButton'
+        'directives.uiNavButton',
+        'directives.uiToast'
     ])
 
         .config(['$routeProvider', function ($routeProvider) {
@@ -27,7 +28,8 @@
             '$timeout',
             '$uiAnimatedPages',
             '$uiPageIndicators',
-            function ($scope, $rootScope, $http, $location, $timeout, $uiAnimatedPages, $uiPageIndicators) {
+            '$uiToast',
+            function ($scope, $rootScope, $http, $location, $timeout, $uiAnimatedPages, $uiPageIndicators, $uiToast) {
                 $rootScope.$on('$routeUpdate', function (event, current) {
                     switch (current.params.view) {
                         case 'movie':
@@ -75,6 +77,35 @@
                     };
                 }
 
+                function getData() {
+                    $scope.loading = true;
+
+                    $http.get('https://s3.amazonaws.com/nowplaying-v3/nowplaying.json')
+                        .success(function (movies) {
+                            $scope.loading = false;
+                            movies.forEach(function (movie) {
+                                /*
+                                 * create a duration string for the view based
+                                 * on the duration. ex: 1h 40m
+                                 */
+                                var duration = getDuration(movie.runtime);
+                                movie.duration = duration.hours + 'h ' + duration.minutes + 'm';
+                            });
+
+                            $scope.movies = movies;
+                        })
+                        .error(function () {
+                            $scope.loading = false;
+
+                            var toast = $uiToast.show({
+                                text: 'Couldn\'t retrieve movies.',
+                                delay: 0
+                            });
+
+                            toast.result.then(getData);
+                        });
+                }
+
                 $scope.goToMovie = function () {
                     $scope.movie = $scope.movies[$scope.pageIndicators.active];
                     $scope.displayMovie = true;
@@ -117,21 +148,9 @@
                     $location.search('view', 'movie');
                 };
 
-                $scope.loading = true;
-
-                $http.get('https://s3.amazonaws.com/nowplaying-v3/nowplaying.json')
-                    .success(function (movies) {
-                        $scope.loading = false;
-                        movies.forEach(function (movie) {
-                            /*
-                             * create a duration string for the view based
-                             * on the duration. ex: 1h 40m
-                             */
-                            var duration = getDuration(movie.runtime);
-                            movie.duration = duration.hours + 'h ' + duration.minutes + 'm';
-                        });
-
-                        $scope.movies = movies;
-                    });
+                /*
+                 * kick everything off
+                 */
+                getData();
         }]);
 }());
