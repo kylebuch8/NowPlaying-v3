@@ -5,6 +5,7 @@ var q = require('q');
 var config = require('./config.json');
 var AWS = require('aws-sdk');
 var youtube = require('./youtube.js');
+var crontab = require('node-crontab');
 
 AWS.config.update(config.aws);
 
@@ -208,24 +209,29 @@ function getMovies() {
     return deferred.promise;
 }
 
-getMovies().then(function (result) {
-    var movies = result.movies;
-    generateAllMoviePosters(movies)
-        .then(getYoutubeMovieIds)
-        .then(function (movies) {
-            var output = __dirname + '/data.json';
+function run () {
+    getMovies().then(function (result) {
+        var movies = result.movies;
+        generateAllMoviePosters(movies)
+            .then(getYoutubeMovieIds)
+            .then(function (movies) {
+                var output = __dirname + '/data.json';
 
-            fs.writeFile(output, JSON.stringify(movies, null, 4), function (err) {
-                if (err) {
-                    console.log(err);
-                    return;
-                }
+                fs.writeFile(output, JSON.stringify(movies, null, 4), function (err) {
+                    if (err) {
+                        console.log(err);
+                        return;
+                    }
 
-                console.log('JSON saved to ' + output);
+                    console.log('JSON saved to ' + output);
+                });
+
+                uploadJson(movies).then(function (data) {
+                    console.log('JSON saved to S3');
+                });
             });
+    });
+}
 
-            uploadJson(movies).then(function (data) {
-                console.log('JSON saved to S3');
-            });
-        });
-});
+var jobId = crontab.scheduleJob('0 1 * * *', run);
+run();
