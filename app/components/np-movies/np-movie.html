@@ -1,0 +1,12 @@
+<div class="movie page" ng-class="{'show': $first}" ng-style="{'background-image': 'url({{movie.images.bg}})'};" ng-repeat="movie in data">
+    <div class="movie-content">
+        <div class="poster">
+            <img ng-src="{{movie.images.poster}}" ng-click="goToMovie()">
+        </div>
+        <div class="title" ng-click="goToMovie()">
+            <h1>{{movie.title}}</h1>
+            <div class="score">{{movie.ratings.critics_score}}%</div>
+            <div><strong>{{movie.mpaa_rating}}, {{movie.duration}}</strong></div>
+        </div>
+    </div>
+</div>

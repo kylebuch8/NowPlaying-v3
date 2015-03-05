@@ -6,7 +6,7 @@
         function preventScroll(event) {
             event.preventDefault();
         }
-        
+
         this.enableScroll = function () {
             document.body.removeEventListener('touchmove', preventScroll);
         }
@@ -22,10 +22,12 @@
             function init(scope, element) {
                 var pages = element.children(),
                     current = 0,
+                    currentPage = 0,
                     start,
                     difference,
                     width = element[0].clientWidth,
-                    threshold = 100;
+                    threshold = 100,
+                    direction;
 
                 function getNext() {
                     var next = current + 1;
@@ -37,11 +39,31 @@
                     return next;
                 }
 
+                function getNextPage() {
+                    var next = currentPage + 1;
+
+                    if (next === scope.pagesData.length) {
+                        next = 0;
+                    }
+
+                    return next;
+                }
+
                 function getPrevious() {
                     var previous = current - 1;
 
                     if (previous === -1) {
                         previous = pages.length - 1;
+                    }
+
+                    return previous;
+                }
+
+                function getPreviousPage() {
+                    var previous = currentPage - 1;
+
+                    if (previous === -1) {
+                        previous = scope.pagesData.length - 1;
                     }
 
                     return previous;
@@ -74,6 +96,15 @@
                 element[0].addEventListener('transitionend', function (event) {
                     event.target.classList.remove('animate', 'show-back', 'hide-back', 'hide');
                     event.target.style.zIndex = null;
+
+                    scope.$apply(function () {
+                        if (direction === 'left') {
+                            scope.data[getNext()] = scope.pagesData[getNextPage()];
+                        } else {
+                            scope.data[getPrevious()] = scope.pagesData[getPreviousPage()];
+                        }
+                        pages = element.children();
+                    });
                 });
 
                 element[0].addEventListener('touchstart', function (event) {
@@ -92,6 +123,7 @@
                      * page down
                      */
                     if (difference < 0) {
+                        direction = 'left';
                         pages[current].style.WebkitTransform = 'translate3d(' + difference +  'px, 0, 0)';
                         pages[current].style.transform = 'translate3d(' + difference +  'px, 0, 0)';
 
@@ -102,6 +134,7 @@
                         /*
                          * we're moving to the right
                          */
+                        direction = 'right';
                         pages[current].style.WebkitTransform = 'scale(' + (1 - scale) + ')';
                         pages[current].style.transform = 'scale(' + (1 - scale) + ')';
                         pages[current].style.opacity = 1 - Math.abs(difference / width).toFixed(2);
@@ -136,12 +169,17 @@
                                 angular.element(pages[getNext()]).addClass('show animate');
 
                                 current += 1;
+                                currentPage += 1;
 
                                 if (current === pages.length) {
                                     current = 0;
                                 }
 
-                                scope.pageIndicators.activate(current);
+                                if (currentPage === scope.pagesData.length) {
+                                    currentPage = 0;
+                                }
+
+                                scope.pageIndicators.activate(currentPage);
                                 scope.$apply();
 
                             } else {
@@ -157,12 +195,17 @@
                                  angular.element(pages[getPrevious()]).addClass('animate show-back show');
 
                                  current -= 1;
+                                 currentPage -= 1;
 
                                  if (current === -1) {
                                      current = pages.length - 1;
                                  }
 
-                                 scope.pageIndicators.activate(current);
+                                 if (currentPage === -1) {
+                                     currentPage = scope.pagesData.length - 1;
+                                 }
+
+                                 scope.pageIndicators.activate(currentPage);
                                  scope.$apply();
                              } else {
                                  angular.element(pages[current]).addClass('animate');
@@ -178,13 +221,17 @@
             return {
                 restrict: 'AE',
                 scope: {
-                    pageIndicators: '='
+                    pageIndicators: '=',
+                    pagesData: '=',
+                    goToMovie: '='
                 },
+                templateUrl: 'components/np-movies/np-movie.html',
                 link: function (scope, element) {
+                    scope.data = [scope.pagesData[0], scope.pagesData[1], scope.pagesData[15]];
+
                     $timeout(function () {
                         init(scope, element);
                     }, 0);
-
                 }
             };
         }])
@@ -195,5 +242,5 @@
                     return new UiAnimatedPages();
                 }
             };
-        }]);;
+        }]);
 }());
