@@ -1,0 +1,26 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {
+            "res/xml/config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"GAPlugin\"><param name=\"android-package\" value=\"com.adobe.plugins.GAPlugin\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "installed_plugins": {
+        "com.adobe.plugins.GAPlugin": {
+            "PACKAGE_NAME": "com.wheelhouseapps.nowplaying"
+        }
+    },
+    "dependent_plugins": {}
+}

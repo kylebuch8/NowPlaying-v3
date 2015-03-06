@@ -4,5 +4,7 @@ backend/config.json
 backend/images
 backend/data.json
 cordova/platforms
-cordova/plugins
+cordova/plugins/*
+!cordova/plugins/android.json
+!cordova/plugins/ios.json
 cordova/www
