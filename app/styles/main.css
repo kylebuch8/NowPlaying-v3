@@ -534,3 +534,21 @@ ui-toast {
     height: 400px;
   }
 }
+.movie .poster img.detail-poster {
+  max-height: 300px;
+}
+@media (min-height: 230px) and (orientation: landscape) {
+  .movie .poster img {
+    max-width: 50%;
+  }
+}
+@media (min-height: 475px) and (orientation: landscape) {
+  .movie .poster img {
+    max-width: 75%;
+  }
+}
+@media (min-height: 720px) and (orientation: landscape) {
+  .movie .poster img {
+    max-width: 100%;
+  }
+}

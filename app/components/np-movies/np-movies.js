@@ -90,6 +90,15 @@
                                  */
                                 var duration = getDuration(movie.runtime);
                                 movie.duration = duration.hours + 'h ' + duration.minutes + 'm';
+
+                                /*
+                                 * set the background images
+                                 */
+                                var mql = window.matchMedia('(min-width: 800px), (min-height: 800px)');
+                                if (mql.matches) {
+                                    movie.images.poster = movie.images.poster_lg;
+                                    movie.images.bg = movie.images.bg_lg;
+                                }
                             });
 
                             $scope.movies = movies;
