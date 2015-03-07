@@ -6,6 +6,8 @@ var config = require('./config.json');
 var AWS = require('aws-sdk');
 var youtube = require('./youtube.js');
 var crontab = require('node-crontab');
+var SMALL_IMAGE_WIDTH = 180;
+var LARGE_IMAGE_WIDTH = 420;
 
 AWS.config.update(config.aws);
 
@@ -79,7 +81,7 @@ function uploadJson(json) {
  * 3. blur original and add opacity layer
  * 4. upload the blurred image to amazon
  */
-function generatePosterImage(posterUrl, fileName) {
+function generatePosterImage(posterUrl, fileName, width) {
     var originalImagePromise = q.defer();
     var blurredImagePromise = q.defer();
     var promises = [originalImagePromise.promise, blurredImagePromise.promise];
@@ -98,6 +100,7 @@ function generatePosterImage(posterUrl, fileName) {
         res.on('end', function () {
             fs.writeFileSync(output, data, 'binary');
             gm(output)
+                .resize(width)
                 .stream(function (err, stdout, stderr) {
                     var buffer = new Buffer(0);
 
@@ -119,9 +122,10 @@ function generatePosterImage(posterUrl, fileName) {
                         filesize = format.Filesize;
 
                     gm(output)
-                        .blur(10, 2)
                         .fill('#00000099')
                         .drawRectangle(0, 0, size.width, size.height)
+                        .resize(width)
+                        .blur(10, 2)
                         .stream(function (err, stdout, stderr) {
                             var buffer = new Buffer(0);
 
@@ -149,19 +153,40 @@ function generateAllMoviePosters(movies) {
     var promises = [];
 
     movies.forEach(function (movie) {
-        var deferred = q.defer();
+        var deferred = q.defer(),
+            smallPostersSaved = false,
+            largePostersSaved = false;
 
+        movie.images = {};
         movie.posters = setMoviePosters(movie.posters);
-        generatePosterImage(movie.posters.detailed, movie.id).then(function (data) {
-            movie.images = {
-                poster: data[0],
-                bg: data[1],
-                posterBg: data[2]
-            };
 
-            deferred.resolve(movie);
+        /*
+         * get the detailed posters
+         */
+        generatePosterImage(movie.posters.detailed, movie.id, SMALL_IMAGE_WIDTH).then(function (data) {
+            movie.images.poster = data[0];
+            movie.images.bg = data[1];
+
+            smallPostersSaved = true;
+
+            if (smallPostersSaved && largePostersSaved) {
+                deferred.resolve(movie);
+            }
         });
 
+        /*
+         * get the original posters
+         */
+        generatePosterImage(movie.posters.original, movie.id + '_lg', LARGE_IMAGE_WIDTH).then(function (data) {
+            movie.images.poster_lg = data[0];
+            movie.images.bg_lg = data[1];
+
+            largePostersSaved = true;
+
+            if (smallPostersSaved && largePostersSaved) {
+                deferred.resolve(movie);
+            }
+        });
 
         promises.push(deferred.promise);
     });
