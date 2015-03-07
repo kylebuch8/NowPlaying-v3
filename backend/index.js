@@ -119,13 +119,14 @@ function generatePosterImage(posterUrl, fileName, width) {
                 })
                 .identify(function (err, format) {
                     var size = format.size,
-                        filesize = format.Filesize;
+                        filesize = format.Filesize,
+                        secondBlurValue = (width === LARGE_IMAGE_WIDTH) ? 5 : 3;
 
                     gm(output)
-                        .fill('#00000099')
+                        .fill('#0000007F')
                         .drawRectangle(0, 0, size.width, size.height)
                         .resize(width)
-                        .blur(10, 2)
+                        .blur(30, secondBlurValue)
                         .stream(function (err, stdout, stderr) {
                             var buffer = new Buffer(0);
 
