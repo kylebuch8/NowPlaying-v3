@@ -228,6 +228,19 @@ function getMovies() {
         res.on('end', function () {
             var result = JSON.parse(data);
 
+            /*
+             * loop through all of the movies and check for a negative
+             * critics_score value in the ratings object. set it to N/A
+             * if the value is -1
+             */
+            result.movies.forEach(function (movie) {
+                if (movie.ratings.critics_score === -1) {
+                    movie.ratings.critics_score = 'N/A';
+                } else {
+                    movie.ratings.critics_score += '%';
+                }
+            });
+
             deferred.resolve(result);
         });
     });
@@ -238,6 +251,7 @@ function getMovies() {
 function run () {
     getMovies().then(function (result) {
         var movies = result.movies;
+
         generateAllMoviePosters(movies)
             .then(getYoutubeMovieIds)
             .then(function (movies) {
