@@ -1,4 +1,4 @@
-<div class="movie page" ng-class="{'show': $first}" ng-style="{'background-image': 'url({{movie.images.bg}})'};" ng-repeat="movie in data">
+<div class="movie page" ng-style="{'background-image': 'url({{movie.images.bg}})'};" ng-repeat="movie in data">
     <div class="movie-content">
         <div class="poster">
             <img class="animated-pages" ng-src="{{movie.images.poster}}" ng-click="goToMovie()">

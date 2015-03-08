@@ -29,6 +29,8 @@
                     threshold = 100,
                     direction;
 
+                pages[0].classList.add('show');
+
                 function getNext() {
                     var next = current + 1;
 

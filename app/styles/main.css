@@ -215,6 +215,7 @@ nav h1 span {
   backface-visibility: hidden;
   -webkit-transform: translate3d(0, 0, 0) scale(0.75);
   transform: translate3d(0, 0, 0) scale(0.75);
+  will-change: transform, opacity;
 }
 .movie {
   display: -webkit-flex;
