@@ -2,12 +2,15 @@
     'use strict';
 
     /*global angular*/
-    angular.module('directives.embedVideo', [])
-        .directive('embedVideo', [function () {
+    angular.module('directives.embedVideo', [
+        'services.analytics'
+    ])
+        .directive('embedVideo', ['analytics', function (analytics) {
             return {
                 restrict: 'AE',
                 scope: {
-                    youtubeId: '='
+                    youtubeId: '=',
+                    movieTitle: '='
                 },
                 template: '<div ng-if="loadingTrailer" class="loader"><svg class="circular"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/></svg></div><div id="player"></div>',
                 controller: ['$scope', '$sce', function ($scope, $sce) {
@@ -33,7 +36,8 @@
                             width: '640',
                             videoId: $scope.youtubeId,
                             events: {
-                                'onReady': onPlayerReady
+                                'onReady': onPlayerReady,
+                                'onStateChange': onPlayerStateChange
                             }
                         });
                     }
@@ -41,6 +45,12 @@
                     function onPlayerReady(event) {
                         $scope.loadingTrailer = false;
                         $scope.$apply();
+                    }
+
+                    function onPlayerStateChange(state) {
+                        if (state.data === YT.PlayerState.PLAYING) {
+                            analytics.trackEvent('Trailer Playing', 'Tap', $scope.movieTitle);
+                        }
                     }
 
                     window.onYouTubeIframeAPIReady = setupPlayer;

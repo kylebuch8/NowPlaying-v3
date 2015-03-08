@@ -8,7 +8,8 @@
         'directives.uiAnimatedPages',
         'directives.embedVideo',
         'directives.uiNavButton',
-        'directives.uiToast'
+        'directives.uiToast',
+        'services.analytics'
     ])
 
         .config(['$routeProvider', function ($routeProvider) {
@@ -29,7 +30,8 @@
             '$uiAnimatedPages',
             '$uiPageIndicators',
             '$uiToast',
-            function ($scope, $rootScope, $http, $location, $timeout, $uiAnimatedPages, $uiPageIndicators, $uiToast) {
+            'analytics',
+            function ($scope, $rootScope, $http, $location, $timeout, $uiAnimatedPages, $uiPageIndicators, $uiToast, analytics) {
                 $rootScope.$on('$routeUpdate', function (event, current) {
                     switch (current.params.view) {
                         case 'movie':
@@ -135,6 +137,9 @@
                     $timeout(function () {
                         document.querySelector('.scroller').scrollTop = 0;
                     }, 0);
+
+                    analytics.trackEvent('Poster', 'Tap', $scope.movie.title);
+                    analytics.trackPage('detail');
                 };
 
                 $scope.goBack = function() {
@@ -145,21 +150,30 @@
                      */
                     $scope.uiAnimatedPages.disableScroll();
                     $location.search('');
+
+                    analytics.trackPage('movies');
                 };
 
                 $scope.showTrailer = function () {
                     $scope.showingTrailer = true;
                     $location.search('view', 'trailer');
+
+                    analytics.trackEvent('Trailer', 'Tap', $scope.movie.title);
+                    analytics.trackPage('trailer');
                 };
 
                 $scope.hideTrailer = function () {
                     $scope.showingTrailer = false;
                     $location.search('view', 'movie');
+
+                    analytics.trackPage('detail');
                 };
 
                 /*
                  * kick everything off
                  */
                 getData();
+
+                analytics.trackPage('movies');
         }]);
 }());
