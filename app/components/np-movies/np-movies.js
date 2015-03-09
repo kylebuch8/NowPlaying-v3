@@ -9,6 +9,7 @@
         'directives.embedVideo',
         'directives.uiNavButton',
         'directives.uiToast',
+        'services.movies',
         'services.analytics'
     ])
 
@@ -30,8 +31,9 @@
             '$uiAnimatedPages',
             '$uiPageIndicators',
             '$uiToast',
+            'movies',
             'analytics',
-            function ($scope, $rootScope, $http, $location, $timeout, $uiAnimatedPages, $uiPageIndicators, $uiToast, analytics) {
+            function ($scope, $rootScope, $http, $location, $timeout, $uiAnimatedPages, $uiPageIndicators, $uiToast, movies, analytics) {
                 $rootScope.$on('$routeUpdate', function (event, current) {
                     switch (current.params.view) {
                         case 'movie':
@@ -65,56 +67,25 @@
 
                 $scope.uiAnimatedPages.disableScroll();
 
-                /*
-                 * based on the number of minutes, return the number
-                 * of hours and minutes
-                 */
-                function getDuration(runtime) {
-                    var hours = Math.floor(runtime / 60),
-                        minutes = runtime % 60;
+                function getDataSuccessHandler(movies) {
+                    $scope.loading = false;
+                    $scope.movies = movies;
+                }
 
-                    return {
-                        hours: hours,
-                        minutes: minutes
-                    };
+                function getDataErrorHandler() {
+                    $scope.loading = false;
+
+                    var toast = $uiToast.show({
+                        text: 'Couldn\'t retrieve movies.',
+                        delay: 0
+                    });
+
+                    toast.result.then(getData);
                 }
 
                 function getData() {
                     $scope.loading = true;
-
-                    $http.get('https://s3.amazonaws.com/nowplaying-v3/nowplaying.json')
-                        .success(function (movies) {
-                            $scope.loading = false;
-                            movies.forEach(function (movie) {
-                                /*
-                                 * create a duration string for the view based
-                                 * on the duration. ex: 1h 40m
-                                 */
-                                var duration = getDuration(movie.runtime);
-                                movie.duration = duration.hours + 'h ' + duration.minutes + 'm';
-
-                                /*
-                                 * set the background images
-                                 */
-                                var mql = window.matchMedia('(min-width: 800px), (min-height: 800px)');
-                                if (mql.matches) {
-                                    movie.images.poster = movie.images.poster_lg;
-                                    movie.images.bg = movie.images.bg_lg;
-                                }
-                            });
-
-                            $scope.movies = movies;
-                        })
-                        .error(function () {
-                            $scope.loading = false;
-
-                            var toast = $uiToast.show({
-                                text: 'Couldn\'t retrieve movies.',
-                                delay: 0
-                            });
-
-                            toast.result.then(getData);
-                        });
+                    movies.get().then(getDataSuccessHandler, getDataErrorHandler);
                 }
 
                 $scope.goToMovie = function () {
