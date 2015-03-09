@@ -84,6 +84,14 @@
                 }
 
                 function getData() {
+                    /*
+                     * reset everything
+                     */
+                    $scope.movies = null;
+                    $scope.movie = null;
+                    $scope.displayMovie = false;
+                    $scope.showingTrailer = false;
+
                     $scope.loading = true;
                     movies.get().then(getDataSuccessHandler, getDataErrorHandler);
                 }

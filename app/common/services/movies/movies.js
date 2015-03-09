@@ -22,6 +22,35 @@
             }
 
             /*
+             * we'll need a refresh if there are no movies, or if there are
+             * movies, the data needs to be less than 12 hours old
+             */
+            moviesService.needsRefresh = function () {
+                var lastUpdated = localStorage.getItem('last-updated'),
+                    movies = localStorage.getItem('movies'),
+                    needsRefresh = true,
+                    currentDate;
+
+                if (!movies) {
+                    return needsRefresh;
+                }
+
+                if (lastUpdated) {
+                    currentDate = Date.now();
+                    lastUpdated = new Date(parseInt(lastUpdated, 10));
+
+                    /*
+                     * less than 12 hours
+                     */
+                    if (((currentDate - lastUpdated) / 1000 / 60 / 60) < 12) {
+                        needsRefresh = false;
+                    }
+                }
+
+                return needsRefresh;
+            };
+
+            /*
              * get the movies and store them in local storage along
              * with a time stamp
              *
@@ -43,7 +72,7 @@
                     currentDate = Date.now();
                     lastUpdated = new Date(parseInt(lastUpdated, 10));
 
-                    if (((currentDate - lastUpdated) / 1000 / 60 / 60) < 12) {
+                    if (!moviesService.needsRefresh()) {
                         deferred.resolve(JSON.parse(cachedMovies));
                         return deferred.promise;
                     }
