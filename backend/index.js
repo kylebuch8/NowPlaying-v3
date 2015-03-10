@@ -241,6 +241,14 @@ function getMovies() {
                 }
             });
 
+            /*
+             * sort the movies by the theater release date
+             * with the newest movies first
+             */
+            result.movies.sort(function (a, b) {
+                return new Date(b.release_dates.theater) - new Date(a.release_dates.theater);
+            });
+
             deferred.resolve(result);
         });
     });
