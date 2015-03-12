@@ -2,6 +2,11 @@
     'use strict';
 
     /*global angular*/
+    var numPages = 3,
+        current,
+        currentPage,
+        pagesData;
+
     function UiAnimatedPages() {
         function preventScroll(event) {
             event.preventDefault();
@@ -16,13 +21,51 @@
         }
     }
 
+    function getNext() {
+        var next = current + 1;
+
+        if (next === numPages) {
+            next = 0;
+        }
+
+        return next;
+    }
+
+    function getNextPage() {
+        var next = currentPage + 1;
+
+        if (next === pagesData.length) {
+            next = 0;
+        }
+
+        return next;
+    }
+
+    function getPrevious() {
+        var previous = current - 1;
+
+        if (previous === -1) {
+            previous = numPages - 1;
+        }
+
+        return previous;
+    }
+
+    function getPreviousPage() {
+        var previous = currentPage - 1;
+
+        if (previous === -1) {
+            previous = pagesData.length - 1;
+        }
+
+        return previous;
+    }
+
     angular.module('directives.uiAnimatedPages', [])
         .directive('uiAnimatedPages', ['$timeout', function ($timeout) {
 
             function init(scope, element) {
                 var pages = element.children(),
-                    current = 0,
-                    currentPage = 0,
                     start,
                     difference,
                     width = element[0].clientWidth,
@@ -30,46 +73,6 @@
                     direction;
 
                 pages[0].classList.add('show');
-
-                function getNext() {
-                    var next = current + 1;
-
-                    if (next === pages.length) {
-                        next = 0;
-                    }
-
-                    return next;
-                }
-
-                function getNextPage() {
-                    var next = currentPage + 1;
-
-                    if (next === scope.pagesData.length) {
-                        next = 0;
-                    }
-
-                    return next;
-                }
-
-                function getPrevious() {
-                    var previous = current - 1;
-
-                    if (previous === -1) {
-                        previous = pages.length - 1;
-                    }
-
-                    return previous;
-                }
-
-                function getPreviousPage() {
-                    var previous = currentPage - 1;
-
-                    if (previous === -1) {
-                        previous = scope.pagesData.length - 1;
-                    }
-
-                    return previous;
-                }
 
                 function preventScroll(event) {
                     event.preventDefault();
@@ -225,11 +228,16 @@
                 scope: {
                     pageIndicators: '=',
                     pagesData: '=',
+                    selected: '=',
                     goToMovie: '='
                 },
                 templateUrl: 'components/np-movies/np-movie.html',
                 link: function (scope, element) {
-                    scope.data = [scope.pagesData[0], scope.pagesData[1], scope.pagesData[15]];
+                    current = 0;
+                    currentPage = scope.selected;
+                    pagesData = scope.pagesData;
+
+                    scope.data = [scope.pagesData[currentPage], scope.pagesData[getNextPage()], scope.pagesData[getPreviousPage()]];
 
                     $timeout(function () {
                         init(scope, element);

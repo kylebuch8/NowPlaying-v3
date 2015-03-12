@@ -3,8 +3,11 @@
 
     /*global angular*/
     angular.module('services.movies', [])
-        .factory('movies', ['$http', '$q', function ($http, $q) {
-            var moviesService = {},
+        .factory('$movies', ['$http', '$q', function ($http, $q) {
+            var moviesService = {
+                    movies: []
+                },
+                selected,
                 jsonUrl = 'https://s3.amazonaws.com/nowplaying-v3/nowplaying.json';
 
             /*
@@ -73,11 +76,18 @@
                     lastUpdated = new Date(parseInt(lastUpdated, 10));
 
                     if (!moviesService.needsRefresh()) {
-                        deferred.resolve(JSON.parse(cachedMovies));
+                        moviesService.movies = JSON.parse(cachedMovies);
+                        deferred.resolve(moviesService.movies);
+
                         return deferred.promise;
                     }
                 }
 
+                /*
+                 * get the data from amazon, figure out which image needs
+                 * to be displayed based on screen size. set the movies and
+                 * last updated date in local storage and return the movies.
+                 */
                 $http.get(jsonUrl)
                     .success(function (movies) {
                         movies.forEach(function (movie) {
@@ -104,11 +114,37 @@
                         localStorage.setItem('movies', JSON.stringify(movies));
                         localStorage.setItem('last-updated', Date.now());
 
+                        moviesService.movies = movies;
+
                         deferred.resolve(movies);
                     })
                     .error(function () {
                         deferred.reject();
                     });
+
+                return deferred.promise;
+            };
+
+            moviesService.setSelected = function (id) {
+                var index = moviesService.movies.map(function (movie) {
+                    return movie.id;
+                }).indexOf(id);
+
+                selected = {
+                    index: index,
+                    movie: moviesService.movies[index]
+                };
+            };
+
+            moviesService.getSelected = function () {
+                return selected;
+                var deferred = $q.defer();
+
+                if (selected) {
+                    deferred.resolve(selected);
+                } else {
+                    deferred.reject();
+                }
 
                 return deferred.promise;
             };

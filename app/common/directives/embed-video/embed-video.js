@@ -5,7 +5,7 @@
     angular.module('directives.embedVideo', [
         'services.analytics'
     ])
-        .directive('embedVideo', ['analytics', function (analytics) {
+        .directive('embedVideo', ['$analytics', function ($analytics) {
             return {
                 restrict: 'AE',
                 scope: {
@@ -49,7 +49,7 @@
 
                     function onPlayerStateChange(state) {
                         if (state.data === YT.PlayerState.PLAYING) {
-                            analytics.trackEvent('Trailer Playing', 'Tap', $scope.movieTitle);
+                            $analytics.trackEvent('Trailer Playing', 'Tap', $scope.movieTitle);
                         }
                     }
 

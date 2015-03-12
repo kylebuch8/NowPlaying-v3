@@ -202,7 +202,7 @@ ng-view {
 }
 
 .home.ng-enter {
-    opacity: 0;
+    opacity: 1;
 }
 
 .home.ng-enter-active {
@@ -216,10 +216,12 @@ ng-view {
 }
 
 .home.ng-leave-active {
-    opacity: 0;
+    opacity: 1;
 }
 
 .detail {
+    position: relative;
+    z-index: 8888;
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
 }
