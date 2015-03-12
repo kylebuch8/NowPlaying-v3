@@ -3,7 +3,7 @@
 
     /*global angular*/
     angular.module('services.analytics', [])
-        .factory('analytics', [function () {
+        .factory('$analytics', [function () {
             var gaPlugin,
                 analytics = {};
 

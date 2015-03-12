@@ -9,26 +9,37 @@
         'services.movies'
     ])
 
-        .run(['movies', '$timeout', '$window', function (movies, $timeout, $window) {
-            function resumeHandler(movies, $timeout, $window) {
-                $timeout(function () {
-                    if (movies.needsRefresh()) {
-                        /*
-                         * start everything up again
-                         */
-                        $window.location.reload();
-                    }
+        .run([
+            '$movies',
+            '$rootScope',
+            '$timeout',
+            '$window',
+            '$location',
+            function ($movies, $rootScope, $timeout, $window, $location) {
+                function resumeHandler($movies, $timeout, $window) {
+                    $timeout(function () {
+                        if ($movies.needsRefresh()) {
+                            /*
+                             * start everything up again
+                             */
+                            $window.location.reload();
+                        }
+                    });
+                }
+
+                /*
+                 * it is safe to add these events since the application
+                 * was bootstrapped in the device ready callback
+                 */
+                document.addEventListener('resume', function () {
+                    resumeHandler($movies, $timeout, $window);
+                });
+
+                $rootScope.$on('$routeChangeError', function () {
+                    $location.path('/');
                 });
             }
-
-            /*
-             * it is safe to add these events since the application
-             * was bootstrapped in the device ready callback
-             */
-            document.addEventListener('resume', function () {
-                resumeHandler(movies, $timeout, $window);
-            });
-        }]);
+        ]);
 
     if (typeof cordova !== 'undefined') {
         document.addEventListener('deviceready', function () {
