@@ -158,9 +158,18 @@
 
                         completedTransitionEvents = 0;
 
-                        element[0].children[current].classList.add('animate');
+                        /*
+                         * determine if this was meant to be a click
+                         * or a drag. if the difference is less than or
+                         * equal to five, it must have been a click
+                         */
+                        if (Math.abs(difference) <= 5) {
+                            event.target.click();
+                            return;
+                        }
 
                         if (difference > 0) {
+                            element[0].children[current].classList.add('animate');
                             element[0].children[next].classList.add('animate');
 
                             if (Math.abs(difference) >= threshold) {
@@ -182,6 +191,7 @@
                         }
 
                         if (difference < 0) {
+                            element[0].children[current].classList.add('animate');
                             element[0].children[previous].classList.add('animate');
 
                             if (Math.abs(difference) >= threshold) {
