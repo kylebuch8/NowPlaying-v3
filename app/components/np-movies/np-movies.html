@@ -11,15 +11,15 @@
 
     <div ng-if="movies.length">
         <ui-animated-pages class="movies" page-indicators="pageIndicators" selected="selected">
-            <div class="movie page" ng-style="{'background-image': 'url({{movie.images.bg}})'};" ng-repeat="movie in movies">
+            <div class="movie page" ng-style="{'background-image': 'url({{::movie.images.bg}})'};" ng-repeat="movie in movies">
                 <div class="movie-content">
                     <div class="poster">
-                        <img class="animated-pages" ng-src="{{movie.images.poster}}" ng-click="goToMovie(movie.id)">
+                        <img class="animated-pages" ng-src="{{::movie.images.poster}}" ng-click="goToMovie(movie.id)">
                     </div>
                     <div class="title" ng-click="goToMovie(movie.id)">
-                        <h1>{{movie.title}}</h1>
-                        <div class="score">{{movie.ratings.critics_score}}</div>
-                        <div><strong>{{movie.mpaa_rating}}, {{movie.duration}}</strong></div>
+                        <h1>{{::movie.title}}</h1>
+                        <div class="score">{{::movie.ratings.critics_score}}</div>
+                        <div><strong>{{::movie.mpaa_rating}}, {{::movie.duration}}</strong></div>
                     </div>
                 </div>
             </div>
