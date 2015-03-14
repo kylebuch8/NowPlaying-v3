@@ -32,17 +32,13 @@
             return {
                 restrict: 'AE',
                 scope: {
-                    pageIndicators: '=',
-                    pagesData: '=',
-                    selected: '=',
-                    goToSelected: '='
+                    selected: '='
                 },
-                transclude: true,
-                link: function (scope, element, attrs, ctrl, $transcludeFn) {
-                    var numPages = scope.pagesData.length,
+                link: function (scope, element) {
+                    var numPages,
                         current = 0,
                         next = 1,
-                        previous = numPages - 1,
+                        previous,
                         start,
                         end,
                         width = element[0].clientWidth,
@@ -51,12 +47,13 @@
                         completedTransitionEvents = 0,
                         forward = false;
 
-                    element.append($transcludeFn(scope));
-
                     /*
                      * we need this for the ng-repeat to finish
                      */
                     $timeout(function () {
+                        numPages = element[0].children.length;
+                        previous = numPages - 1;
+
                         element[0].children[previous].style.cssText += 'z-index: 1; ' + transformCss + ': translate3d(-100%, 0, 0); scale(1); opacity: 1;';
                         element[0].children[current].style.cssText += 'z-index: 0; ' + transformCss + ': translate3d(0, 0, 0) scale(1); opacity: 1;';
                         element[0].children[next].style.cssText += 'z-index: -1; ' + transformCss + ': translate3d(0, 0, 0) scale(0.75); opacity: 0;'

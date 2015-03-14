@@ -10,8 +10,8 @@
     </div>
 
     <div ng-if="movies.length">
-        <ui-animated-pages class="movies" page-indicators="pageIndicators" pages-data="movies" selected="selected" go-to-selected="goToMovie">
-            <div class="movie page" ng-style="{'background-image': 'url({{movie.images.bg}})'};" ng-repeat="movie in pagesData">
+        <ui-animated-pages class="movies" page-indicators="pageIndicators" selected="selected">
+            <div class="movie page" ng-style="{'background-image': 'url({{movie.images.bg}})'};" ng-repeat="movie in movies">
                 <div class="movie-content">
                     <div class="poster">
                         <img class="animated-pages" ng-src="{{movie.images.poster}}" ng-click="goToMovie(movie.id)">
