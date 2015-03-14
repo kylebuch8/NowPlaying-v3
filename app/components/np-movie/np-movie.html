@@ -9,10 +9,10 @@
     </nav>
 
     <div class="scroller">
-        <div class="movie detail" style="background-image: url({{movie.images.bg}});">
+        <div class="movie detail" style="background-image: url({{::movie.images.bg}});">
             <div class="movie-content">
                 <div class="poster">
-                    <img ng-src="{{movie.images.poster}}" class="detail-poster">
+                    <img ng-src="{{::movie.images.poster}}" class="detail-poster">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" width="50" height="50" ng-click="showTrailer()">
                         <circle cx="12" cy="12" r="9" fill="rgba(0, 0, 0, 0.8)"/>
                         <path d="M10 16.5l6-4.5-6-4.5v9z"></path>
@@ -20,9 +20,9 @@
                     </svg>
                 </div>
                 <div class="title">
-                    <h1>{{movie.title}}</h1>
-                    <div class="score">{{movie.ratings.critics_score}}</div>
-                    <div><strong>{{movie.mpaa_rating}}, {{movie.duration}}</strong></div>
+                    <h1>{{::movie.title}}</h1>
+                    <div class="score">{{::movie.ratings.critics_score}}</div>
+                    <div><strong>{{::movie.mpaa_rating}}, {{::movie.duration}}</strong></div>
                 </div>
             </div>
         </div>
@@ -30,17 +30,17 @@
         <div class="content">
             <section>
                 <h2>Synopsis</h2>
-                <p>{{movie.synopsis}}</p>
+                <p>{{::movie.synopsis}}</p>
             </section>
 
             <section>
                 <h2>Cast</h2>
 
                 <div class="cast-member" ng-class="{'first': $first, 'last': $last}" ng-repeat="castMember in movie.abridged_cast">
-                    <div class="actor">{{castMember.name}}</div>
+                    <div class="actor">{{::castMember.name}}</div>
                     <div class="character">
                         <span ng-repeat="character in castMember.characters">
-                            {{character}}
+                            {{::character}}
                             <span ng-show="!$last">,&nbsp;</span>
                         </span>
                     </div>
