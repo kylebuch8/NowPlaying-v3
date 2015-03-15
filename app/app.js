@@ -49,7 +49,9 @@
         angular.bootstrap(document.body, ['nowPlaying']);
     }
 
-    if ('addEventListener' in document) {
+    var iOS = navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false;
+
+    if ('addEventListener' in document && iOS) {
         document.addEventListener('DOMContentLoaded', function() {
             FastClick.attach(document.body);
         }, false);

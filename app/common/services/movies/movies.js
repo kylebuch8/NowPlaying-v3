@@ -104,11 +104,11 @@
                             /*
                              * set the background images
                              */
-                            mql = window.matchMedia('(min-width: 800px), (min-height: 800px)');
-                            if (mql.matches) {
+                            //mql = window.matchMedia('(min-width: 800px), (min-height: 800px)');
+                            //if (mql.matches) {
                                 movie.images.poster = movie.images.poster_lg;
                                 movie.images.bg = movie.images.bg_lg;
-                            }
+                            //}
                         });
 
                         localStorage.setItem('movies', JSON.stringify(movies));
