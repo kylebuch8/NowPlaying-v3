@@ -83,34 +83,30 @@ ng-view {
     display: block;
 }
 
-// .page-movies.ng-hide-add,
-// .page-movies.ng-hide-remove {
-//     position: absolute;
-//     top: 0;
-//     width: 100%;
-//     z-index: 8888;
-//     -webkit-transition: opacity .4s ease-out;
-//     transition: opacity .4s ease-out;
-//     will-change: opacity;
-// }
-//
-// .page-movies.ng-hide-add {
-//     opacity: 1;
-//     -webkit-transition-timing-function: ease-in;
-//     transition-timing-function: ease-in;
-// }
-//
-// .page-movies.ng-hide-add.ng-hide-add-active {
-//     opacity: 0;
-// }
-//
-// .page-movies.ng-hide-remove {
-//     opacity: 0;
-// }
-//
-// .page-movies.ng-hide-remove.ng-hide-remove-active {
-//     opacity: 1;
-// }
+.page-movies.ng-hide-add,
+.page-movies.ng-hide-remove {
+    -webkit-transition: opacity .4s ease-out;
+    transition: opacity .4s ease-out;
+    will-change: opacity;
+}
+
+.page-movies.ng-hide-add {
+    opacity: 1;
+    -webkit-transition-timing-function: ease-in;
+    transition-timing-function: ease-in;
+}
+
+.page-movies.ng-hide-add.ng-hide-add-active {
+    opacity: 1;
+}
+
+.page-movies.ng-hide-remove {
+    opacity: 1;
+}
+
+.page-movies.ng-hide-remove.ng-hide-remove-active {
+    opacity: 1;
+}
 
 .page-movie-detail {
     top: 0;
@@ -159,6 +155,34 @@ ng-view {
         bottom: 0;
         overflow-y: scroll;
     }
+}
+
+.page-movie-detail.ng-animate {
+    -webkit-transition: -webkit-transform .4s ease-out;
+    transition: transform .4s ease-out;
+    will-change: transform;
+}
+
+.page-movie-detail.ng-enter {
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+}
+
+.page-movie-detail.ng-enter-active {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.page-movie-detail.ng-leave {
+    -webkit-transition-timing-function: ease-in;
+    transition-timing-function: ease-in;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.page-movie-detail.ng-leave-active {
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
 }
 
 .page-movie-detail.ng-hide-add,

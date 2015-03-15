@@ -30,13 +30,30 @@
             '$analytics',
             function ($scope, $location, $timeout, $uiAnimatedPages, $uiPageIndicators, $uiToast, $movies, $analytics) {
                 $scope.animation = 'home';
-                
+
                 if (window.cordova) {
                     document.addEventListener('backbutton', backButtonHandler);
                 }
 
                 function backButtonHandler(event) {
                     event.preventDefault();
+
+                    if ($scope.showingTrailer) {
+                        $scope.$apply(function () {
+                            $scope.hideTrailer();
+                        });
+
+                        return;
+                    }
+
+                    if ($scope.movie) {
+                        $scope.$apply(function () {
+                            $scope.goBack();
+                        });
+
+                        return;
+                    }
+
                     navigator.app.exitApp();
                 }
 
@@ -65,9 +82,30 @@
                     $movies.get().then(getDataSuccessHandler, getDataErrorHandler);
                 }
 
-                $scope.goToMovie = function (id) {
-                    $movies.setSelected(id);
-                    $location.path('/movie');
+                $scope.goToMovie = function (movie) {
+                    $scope.uiAnimatedPages.enableScroll();
+                    
+                    $scope.movie = movie;
+                    $analytics.trackPage('detail');
+                };
+
+                $scope.goBack = function () {
+                    $scope.uiAnimatedPages.disableScroll();
+
+                    $scope.movie = null;
+                    $analytics.trackPage('movies');
+                };
+
+                $scope.showTrailer = function () {
+                    $scope.showingTrailer = true;
+
+                    $analytics.trackEvent('Trailer', 'Tap', $scope.movie.title);
+                    $analytics.trackPage('trailer');
+                };
+
+                $scope.hideTrailer = function () {
+                    $scope.showingTrailer = false;
+                    $analytics.trackPage('detail');
                 };
 
                 $scope.uiAnimatedPages = $uiAnimatedPages.getInstance();

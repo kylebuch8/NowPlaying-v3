@@ -61,7 +61,7 @@
                         var i = 0;
                         while (i < numPages) {
                             if (i !== previous && i !== current && i !== next) {
-                                element[0].children[i].style.cssText += 'z-index: 1; ' + transformCss + ': translate3d(-100%, 0px, 0px) scale(1); opacity: 1;';
+                                element[0].children[i].style.cssText += 'z-index: 1; ' + transformCss + ': translate3d(-100%, 0px, 0px) scale(1); opacity: 0;';
                             }
 
                             i += 1;
@@ -78,6 +78,8 @@
                             completedTransitionEvents = 0;
 
                             if (forward) {
+                                element[0].children[previous].style.opacity = 0;
+
                                 current += 1;
                                 if (current === numPages) {
                                     current = 0;
@@ -102,7 +104,7 @@
                                 element[0].children[current].style.zIndex = -1;
 
                                 element[0].children[next].style.zIndex = 1;
-                                element[0].children[next].style.opacity = 1;
+                                element[0].children[next].style.opacity = 0;
                                 element[0].children[next].style[transformJs] = 'translate3d(-100%, 0, 0) scale(1)';
 
                                 current -= 1;
@@ -119,6 +121,8 @@
                                 if (previous === -1) {
                                     previous = numPages - 1;
                                 }
+
+                                element[0].children[previous].style.opacity = 1;
                             }
 
                             element[0].children[current].style.zIndex = 0;
