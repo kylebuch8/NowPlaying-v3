@@ -84,15 +84,28 @@
 
                 $scope.goToMovie = function (movie) {
                     $scope.uiAnimatedPages.enableScroll();
-                    
+
                     $scope.movie = movie;
+                    $scope.detail = true;
+
+                    /*
+                     * make sure we scroll back to the top
+                     *
+                     * i really don't like doing this here but i really
+                     * don't feel like creating a directive to handle
+                     * this. seems like over-kill for this one thing
+                     */
+                    $timeout(function () {
+                        document.querySelector('.scroller').scrollTop = 0;
+                    }, 0);
+
                     $analytics.trackPage('detail');
                 };
 
                 $scope.goBack = function () {
                     $scope.uiAnimatedPages.disableScroll();
+                    $scope.detail = false;
 
-                    $scope.movie = null;
                     $analytics.trackPage('movies');
                 };
 

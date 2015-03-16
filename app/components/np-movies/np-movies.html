@@ -1,4 +1,4 @@
-<div class="page page-movies" ng-show="!movie">
+<div class="page page-movies">
     <nav>
         <h1><i><span>Now</span></i> Playing</h1>
     </nav>
@@ -10,7 +10,7 @@
     </div>
 
     <div ng-if="movies.length">
-        <ui-animated-pages class="movies" page-indicators="pageIndicators" selected="selected">
+        <ui-animated-pages class="movies">
             <div class="movie page" ng-style="{'background-image': 'url({{::movie.images.bg}})'};" ng-repeat="movie in movies">
                 <div class="movie-content">
                     <div class="poster">
@@ -24,14 +24,14 @@
                 </div>
             </div>
         </ui-animated-pages>
+    </div>
 
-        <div class="indicators">
-            <ui-page-indicators number="{{movies.length}}" active="{{selected}}" provider="pageIndicators"></ui-page-indicators>
-        </div>
+    <div class="indicators">
+        <ui-page-indicators number="16" active="0"></ui-page-indicators>
     </div>
 </div>
 
-<div class="page page-movie-detail" ng-if="movie">
+<div class="page page-movie-detail" ng-show="detail">
     <nav>
         <button ui-nav-button ng-click="goBack()">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30">
@@ -42,10 +42,10 @@
     </nav>
 
     <div class="scroller">
-        <div class="movie detail" style="background-image: url({{::movie.images.bg}});">
+        <div class="movie detail" style="background-image: url({{movie.images.bg}});">
             <div class="movie-content">
                 <div class="poster">
-                    <img ng-src="{{::movie.images.poster}}" class="detail-poster">
+                    <img ng-src="{{movie.images.poster}}" class="detail-poster">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" width="50" height="50" ng-click="showTrailer()">
                         <circle cx="12" cy="12" r="9" fill="rgba(0, 0, 0, 0.8)"/>
                         <path d="M10 16.5l6-4.5-6-4.5v9z"></path>
@@ -53,9 +53,9 @@
                     </svg>
                 </div>
                 <div class="title">
-                    <h1>{{::movie.title}}</h1>
-                    <div class="score">{{::movie.ratings.critics_score}}</div>
-                    <div><strong>{{::movie.mpaa_rating}}, {{::movie.duration}}</strong></div>
+                    <h1>{{movie.title}}</h1>
+                    <div class="score">{{movie.ratings.critics_score}}</div>
+                    <div><strong>{{movie.mpaa_rating}}, {{movie.duration}}</strong></div>
                 </div>
             </div>
         </div>
@@ -63,17 +63,17 @@
         <div class="content">
             <section>
                 <h2>Synopsis</h2>
-                <p>{{::movie.synopsis}}</p>
+                <p>{{movie.synopsis}}</p>
             </section>
 
             <section>
                 <h2>Cast</h2>
 
                 <div class="cast-member" ng-class="{'first': $first, 'last': $last}" ng-repeat="castMember in movie.abridged_cast">
-                    <div class="actor">{{::castMember.name}}</div>
+                    <div class="actor">{{castMember.name}}</div>
                     <div class="character">
                         <span ng-repeat="character in castMember.characters">
-                            {{::character}}
+                            {{character}}
                             <span ng-show="!$last">,&nbsp;</span>
                         </span>
                     </div>

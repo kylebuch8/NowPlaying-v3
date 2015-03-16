@@ -31,9 +31,6 @@
         .directive('uiAnimatedPages', ['$timeout', function ($timeout) {
             return {
                 restrict: 'AE',
-                scope: {
-                    selected: '='
-                },
                 link: function (scope, element) {
                     var numPages,
                         current = 0,
@@ -126,6 +123,9 @@
                             }
 
                             element[0].children[current].style.zIndex = 0;
+
+                            var customEvent = new CustomEvent('pagechange', { detail: current });
+                            document.body.dispatchEvent(customEvent);
                         }
                     });
 
