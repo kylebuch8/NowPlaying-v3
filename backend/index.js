@@ -22,9 +22,9 @@ function setMoviePosters(posters) {
         url = 'http://' + posters.profile.split(regex)[1];
 
     posters.original = url;
-    posters.profile = url.replace('_ori', '_pro');
-    posters.detailed = url.replace('_ori', '_det');
-    posters.thumbnail = url.replace('_ori', '_tmb');
+    // posters.profile = url.replace('_ori', '_pro');
+    // posters.detailed = url.replace('_ori', '_det');
+    // posters.thumbnail = url.replace('_ori', '_tmb');
 
     return posters;
 }
@@ -90,6 +90,8 @@ function generatePosterImage(posterUrl, fileName, width) {
 
     http.get(posterUrl, function (res) {
         var data = '';
+
+        console.log('Downloading image: ' + posterUrl);
 
         res.setEncoding('binary');
 
