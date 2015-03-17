@@ -46,7 +46,7 @@
                         return;
                     }
 
-                    if ($scope.movie) {
+                    if ($scope.detail) {
                         $scope.$apply(function () {
                             $scope.goBack();
                         });
