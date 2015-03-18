@@ -44,6 +44,26 @@
                         completedTransitionEvents = 0,
                         forward = false;
 
+                    function getNext() {
+                        var next = current + 1;
+
+                        if (next === numPages) {
+                            next = 0;
+                        }
+
+                        return next;
+                    }
+
+                    function getPrevious() {
+                        var previous = current - 1;
+
+                        if (previous === -1) {
+                            previous = numPages - 1;
+                        }
+
+                        return previous;
+                    }
+
                     /*
                      * we need this for the ng-repeat to finish
                      */
@@ -123,9 +143,6 @@
                             }
 
                             element[0].children[current].style.zIndex = 0;
-
-                            var customEvent = new CustomEvent('pagechange', { detail: current });
-                            document.body.dispatchEvent(customEvent);
                         }
                     });
 
@@ -184,6 +201,9 @@
 
                                 pageChanged = true;
                                 forward = true;
+
+                                var customEvent = new CustomEvent('pagechange', { detail: getNext() });
+                                document.body.dispatchEvent(customEvent);
                             } else {
                                 element[0].children[current].style[transformJs] = 'translate3d(0, 0, 0) scale(1)';
 
@@ -206,6 +226,9 @@
 
                                 pageChanged = true;
                                 forward = false;
+
+                                var customEvent = new CustomEvent('pagechange', { detail: getPrevious() });
+                                document.body.dispatchEvent(customEvent);
                             } else {
                                 element[0].children[current].style[transformJs] = 'translate3d(0, 0, 0) scale(1)';
                                 element[0].children[current].style.opacity = 1;
