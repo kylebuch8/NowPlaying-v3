@@ -432,6 +432,7 @@ embed-video {
   padding-bottom: 56.25%;
   padding-top: 25px;
   height: 0;
+  width: 100%;
 }
 embed-video iframe {
   position: absolute;
@@ -445,6 +446,10 @@ embed-video iframe {
   height: 24px;
 }
 .trailer {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
   position: fixed;
   top: 0;
   left: 0;
@@ -459,9 +464,6 @@ embed-video iframe {
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.95);
-}
-.trailer embed-video {
-  margin-top: 50%;
 }
 .trailer.ng-animate {
   -webkit-transition: opacity 0.4s ease-out;

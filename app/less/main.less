@@ -545,6 +545,7 @@ embed-video {
     padding-bottom: 56.25%;
     padding-top: 25px;
     height: 0;
+    width: 100%;
 
     iframe {
         position: absolute;
@@ -561,6 +562,10 @@ embed-video {
 }
 
 .trailer {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
     position: fixed;
     top: 0;
     left: 0;
@@ -575,10 +580,6 @@ embed-video {
         right: 0;
         bottom: 0;
         background-color: rgba(0, 0, 0, 0.95);
-    }
-
-    embed-video {
-        margin-top: 50%;
     }
 }
 
