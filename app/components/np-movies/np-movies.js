@@ -110,10 +110,11 @@
                 };
 
                 $scope.showTrailer = function () {
-                    $scope.showingTrailer = true;
-
-                    $analytics.trackEvent('Trailer', 'Tap', $scope.movie.title);
-                    $analytics.trackPage('trailer');
+                    YoutubeVideoPlayer.openVideo($scope.movie.youtubeId);
+                    // $scope.showingTrailer = true;
+                    //
+                    // $analytics.trackEvent('Trailer', 'Tap', $scope.movie.title);
+                    // $analytics.trackPage('trailer');
                 };
 
                 $scope.hideTrailer = function () {

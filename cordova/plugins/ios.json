@@ -23,6 +23,10 @@
                         {
                             "xml": "<feature name=\"GAPlugin\"><param name=\"ios-package\" value=\"GAPlugin\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"YoutubeVideoPlayer\"><param name=\"ios-package\" value=\"YoutubeVideoPlayer\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -52,6 +56,24 @@
                             "xml": "false",
                             "count": 1
                         }
+                    ],
+                    "MediaPlayer.framework": [
+                        {
+                            "xml": false,
+                            "count": 1
+                        }
+                    ],
+                    "AVFoundation.framework": [
+                        {
+                            "xml": false,
+                            "count": 1
+                        }
+                    ],
+                    "JavaScriptCore.framework": [
+                        {
+                            "xml": false,
+                            "count": 1
+                        }
                     ]
                 }
             }
@@ -62,6 +84,9 @@
             "PACKAGE_NAME": "com.wheelhouseapps.nowplaying"
         },
         "com.adobe.plugins.GAPlugin": {
+            "PACKAGE_NAME": "com.wheelhouseapps.nowplaying"
+        },
+        "com.bunkerpalace.cordova.YoutubeVideoPlayer": {
             "PACKAGE_NAME": "com.wheelhouseapps.nowplaying"
         }
     },
