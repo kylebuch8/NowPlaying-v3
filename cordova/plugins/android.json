@@ -9,17 +9,19 @@
                 "parents": {
                     "/*": [
                         {
-                            "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "xml": "<feature name=\"Youtube\"><param name=\"android-package\" value=\"ch.renouille.youtube.Youtube\" /></feature>",
                             "count": 1
                         },
                         {
                             "xml": "<feature name=\"GAPlugin\"><param name=\"android-package\" value=\"com.adobe.plugins.GAPlugin\" /></feature>",
                             "count": 1
-                        }
-                    ],
-                    "widget": [
+                        },
                         {
-                            "xml": "<feature name=\"YoutubeVideoPlayer\"><param name=\"android-package\" value=\"com.bunkerpalace.cordova.YoutubeVideoPlayer\" /></feature>",
+                            "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -27,15 +29,9 @@
             },
             "AndroidManifest.xml": {
                 "parents": {
-                    "/manifest": [
+                    "/*": [
                         {
-                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\" />",
-                            "count": 1
-                        }
-                    ],
-                    "/manifest/application": [
-                        {
-                            "xml": "<activity android:name=\"com.keyes.youtube.OpenYouTubePlayerActivity\" android:screenOrientation=\"landscape\" />",
+                            "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
                             "count": 1
                         }
                     ]
@@ -44,13 +40,16 @@
         }
     },
     "installed_plugins": {
-        "org.apache.cordova.statusbar": {
+        "ch.renouille.youtube": {
             "PACKAGE_NAME": "com.wheelhouseapps.nowplaying"
         },
         "com.adobe.plugins.GAPlugin": {
             "PACKAGE_NAME": "com.wheelhouseapps.nowplaying"
         },
-        "com.bunkerpalace.cordova.YoutubeVideoPlayer": {
+        "org.apache.cordova.statusbar": {
+            "PACKAGE_NAME": "com.wheelhouseapps.nowplaying"
+        },
+        "org.apache.cordova.device": {
             "PACKAGE_NAME": "com.wheelhouseapps.nowplaying"
         }
     },

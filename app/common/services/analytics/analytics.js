@@ -26,18 +26,18 @@
                 console.log('nativePluginErrorHandler: ' + error);
             }
 
-            gaPlugin.init(function () {}, function () {}, 'UA-60485034-2', 10);
+            //gaPlugin.init(function () {}, function () {}, 'UA-60485034-2', 10);
 
             analytics.trackPage = function (page) {
-                gaPlugin.trackPage(nativePluginResultHandler, nativePluginErrorHandler, page);
+                //gaPlugin.trackPage(nativePluginResultHandler, nativePluginErrorHandler, page);
             };
 
             analytics.trackEvent = function (category, eventAction, eventLabel) {
-                gaPlugin.trackEvent(nativePluginResultHandler, nativePluginErrorHandler, category, eventAction, eventLabel, 1);
+                //gaPlugin.trackEvent(nativePluginResultHandler, nativePluginErrorHandler, category, eventAction, eventLabel, 1);
             };
 
             analytics.exit = function () {
-                gaPlugin.exit(nativePluginResultHandler, nativePluginErrorHandler);
+                //gaPlugin.exit(nativePluginResultHandler, nativePluginErrorHandler);
             };
 
             return analytics;
