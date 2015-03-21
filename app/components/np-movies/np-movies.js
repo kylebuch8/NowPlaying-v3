@@ -110,11 +110,18 @@
                 };
 
                 $scope.showTrailer = function () {
-                    YoutubeVideoPlayer.openVideo($scope.movie.youtubeId);
+                    if (device.platform === 'iOS') {
+                        YoutubeVideoPlayer.openVideo($scope.movie.youtubeId);
+                    } else {
+                        window.plugins.youtube.show({
+                            videoid: $scope.movie.youtubeId
+                        }, function () {}, function () {});
+                    }
+
                     // $scope.showingTrailer = true;
                     //
-                    // $analytics.trackEvent('Trailer', 'Tap', $scope.movie.title);
-                    // $analytics.trackPage('trailer');
+                    $analytics.trackEvent('Trailer', 'Tap', $scope.movie.title);
+                    $analytics.trackPage('trailer');
                 };
 
                 $scope.hideTrailer = function () {

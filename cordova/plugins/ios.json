@@ -27,6 +27,10 @@
                         {
                             "xml": "<feature name=\"YoutubeVideoPlayer\"><param name=\"ios-package\" value=\"YoutubeVideoPlayer\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Device\"><param name=\"ios-package\" value=\"CDVDevice\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -87,6 +91,12 @@
             "PACKAGE_NAME": "com.wheelhouseapps.nowplaying"
         },
         "com.bunkerpalace.cordova.YoutubeVideoPlayer": {
+            "PACKAGE_NAME": "com.wheelhouseapps.nowplaying"
+        },
+        "ch.renouille.youtube": {
+            "PACKAGE_NAME": "com.wheelhouseapps.nowplaying"
+        },
+        "org.apache.cordova.device": {
             "PACKAGE_NAME": "com.wheelhouseapps.nowplaying"
         }
     },
