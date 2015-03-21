@@ -4,40 +4,27 @@
     /*global angular*/
     angular.module('services.analytics', [])
         .factory('$analytics', [function () {
-            var gaPlugin,
+            var googleAnalytics,
                 analytics = {};
 
-            if (window.plugins && window.plugins.gaPlugin) {
-                gaPlugin = window.plugins.gaPlugin;
+            if (window.analytics) {
+                googleAnalytics = window.analytics;
             } else {
-                gaPlugin = {
+                googleAnalytics = {
                     init: function () {},
                     trackPage: function () {},
-                    trackEvent: function () {},
-                    exit: function () {}
+                    trackEvent: function () {}
                 };
             }
 
-            function nativePluginResultHandler(result) {
-                console.log('nativePluginResultHandler: ' + result);
-            }
-
-            function nativePluginErrorHandler(error) {
-                console.log('nativePluginErrorHandler: ' + error);
-            }
-
-            //gaPlugin.init(function () {}, function () {}, 'UA-60485034-2', 10);
+            googleAnalytics.startTrackerWithId('UA-60485034-2');
 
             analytics.trackPage = function (page) {
-                //gaPlugin.trackPage(nativePluginResultHandler, nativePluginErrorHandler, page);
+                googleAnalytics.trackView(page);
             };
 
             analytics.trackEvent = function (category, eventAction, eventLabel) {
-                //gaPlugin.trackEvent(nativePluginResultHandler, nativePluginErrorHandler, category, eventAction, eventLabel, 1);
-            };
-
-            analytics.exit = function () {
-                //gaPlugin.exit(nativePluginResultHandler, nativePluginErrorHandler);
+                googleAnalytics.trackEvent(category, eventAction, eventLabel, 1);
             };
 
             return analytics;
