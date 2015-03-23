@@ -130,6 +130,11 @@
                     $analytics.trackPage('trailer');
                 };
 
+                $scope.uiAnimatedPages = $uiAnimatedPages.getInstance();
+                $scope.uiAnimatedPages.disableScroll();
+
+                $scope.pageIndicators = $uiPageIndicators.getInstance();
+
                 /*
                  * kick everything off
                  */

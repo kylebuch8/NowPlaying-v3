@@ -64,6 +64,10 @@
                         return previous;
                     }
 
+                    function windowResize() {
+                        width = element[0].clientWidth;
+                    }
+
                     /*
                      * we need this for the ng-repeat to finish
                      */
@@ -84,6 +88,12 @@
                             i += 1;
                         }
                     });
+
+                    /*
+                     * listen for when the page resizes so we can
+                     * get the width of the element
+                     */
+                    window.addEventListener('resize', windowResize);
 
                     element.bind('transitionend', function (event) {
                         event.target.classList.remove('animate');
