@@ -5,49 +5,9 @@
     },
     "config_munge": {
         "files": {
-            "config.xml": {
-                "parents": {
-                    "/*": [
-                        {
-                            "xml": "<feature name=\"StatusBar\"><param name=\"ios-package\" value=\"CDVStatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<preference name=\"StatusBarOverlaysWebView\" value=\"true\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<preference name=\"StatusBarStyle\" value=\"lightcontent\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"YoutubeVideoPlayer\"><param name=\"ios-package\" value=\"YoutubeVideoPlayer\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Device\"><param name=\"ios-package\" value=\"CDVDevice\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"UniversalAnalytics\"><param name=\"ios-package\" value=\"UniversalAnalyticsPlugin\" /></feature>",
-                            "count": 1
-                        }
-                    ]
-                }
-            },
             "framework": {
                 "parents": {
-                    "libsqlite3.dylib": [
-                        {
-                            "xml": "false",
-                            "count": 1
-                        }
-                    ],
-                    "libz.dylib": [
-                        {
-                            "xml": "false",
-                            "count": 1
-                        },
+                    "SystemConfiguration.framework": [
                         {
                             "xml": false,
                             "count": 1
@@ -55,19 +15,17 @@
                     ],
                     "CoreData.framework": [
                         {
-                            "xml": "false",
+                            "xml": false,
                             "count": 1
-                        },
+                        }
+                    ],
+                    "libz.dylib": [
                         {
                             "xml": false,
                             "count": 1
                         }
                     ],
-                    "SystemConfiguration.framework": [
-                        {
-                            "xml": "false",
-                            "count": 1
-                        },
+                    "libsqlite3.0.dylib": [
                         {
                             "xml": false,
                             "count": 1
@@ -90,10 +48,34 @@
                             "xml": false,
                             "count": 1
                         }
-                    ],
-                    "libsqlite3.0.dylib": [
+                    ]
+                }
+            },
+            "config.xml": {
+                "parents": {
+                    "/*": [
                         {
-                            "xml": false,
+                            "xml": "<feature name=\"UniversalAnalytics\"><param name=\"ios-package\" value=\"UniversalAnalyticsPlugin\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Device\"><param name=\"ios-package\" value=\"CDVDevice\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"StatusBar\"><param name=\"ios-package\" value=\"CDVStatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<preference name=\"StatusBarOverlaysWebView\" value=\"true\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<preference name=\"StatusBarStyle\" value=\"lightcontent\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"YoutubeVideoPlayer\"><param name=\"ios-package\" value=\"YoutubeVideoPlayer\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -102,16 +84,22 @@
         }
     },
     "installed_plugins": {
-        "org.apache.cordova.statusbar": {
+        "ch.renouille.youtube": {
             "PACKAGE_NAME": "com.wheelhouseapps.nowplaying"
         },
-        "ch.renouille.youtube": {
+        "com.danielcwilson.plugins.googleanalytics": {
+            "PACKAGE_NAME": "com.wheelhouseapps.nowplaying"
+        },
+        "com.google.playservices": {
             "PACKAGE_NAME": "com.wheelhouseapps.nowplaying"
         },
         "org.apache.cordova.device": {
             "PACKAGE_NAME": "com.wheelhouseapps.nowplaying"
         },
-        "com.danielcwilson.plugins.googleanalytics": {
+        "org.apache.cordova.statusbar": {
+            "PACKAGE_NAME": "com.wheelhouseapps.nowplaying"
+        },
+        "com.bunkerpalace.cordova.YoutubeVideoPlayer": {
             "PACKAGE_NAME": "com.wheelhouseapps.nowplaying"
         }
     },
