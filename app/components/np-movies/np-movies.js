@@ -38,14 +38,6 @@
                 function backButtonHandler(event) {
                     event.preventDefault();
 
-                    if ($scope.showingTrailer) {
-                        $scope.$apply(function () {
-                            $scope.hideTrailer();
-                        });
-
-                        return;
-                    }
-
                     if ($scope.detail) {
                         $scope.$apply(function () {
                             $scope.goBack();
@@ -110,89 +102,33 @@
                 };
 
                 $scope.showTrailer = function () {
-                    if (device.platform === 'iOS') {
-                        YoutubeVideoPlayer.openVideo($scope.movie.youtubeId);
-                    } else {
-                        window.plugins.youtube.show({
-                            videoid: $scope.movie.youtubeId
-                        }, function () {}, function () {});
+                    if (window.device === undefined) {
+                        $uiToast.show({
+                            text: 'YouTube is not available',
+                            delay: true
+                        });
+
+                        return;
                     }
 
-                    // $scope.showingTrailer = true;
-                    //
+                    if (device.platform === 'iOS') {
+                        YoutubeVideoPlayer.openVideo($scope.movie.youtubeId);
+                    }
+
+                    if (device.platform === 'Android') {
+                        window.plugins.youtube.show({
+                            videoid: $scope.movie.youtubeId
+                        }, function () {}, function () {
+                            $uiToast.show({
+                                text: 'YouTube is not available',
+                                delay: true
+                            });
+                        });
+                    }
+
                     $analytics.trackEvent('Trailer', 'Tap', $scope.movie.title);
                     $analytics.trackPage('trailer');
                 };
-
-                $scope.hideTrailer = function () {
-                    $scope.showingTrailer = false;
-                    $analytics.trackPage('detail');
-                };
-
-                $scope.uiAnimatedPages = $uiAnimatedPages.getInstance();
-                $scope.uiAnimatedPages.disableScroll();
-
-                $scope.pageIndicators = $uiPageIndicators.getInstance();
-
-                $scope.$on('$destroy', function () {
-                    $scope.uiAnimatedPages.enableScroll();
-
-                    if (window.cordova) {
-                        document.removeEventListener('backbutton', backButtonHandler);
-                    }
-                });
-
-                // $scope.goToMovie = function () {
-                //     $scope.movie = $scope.movies[$scope.pageIndicators.active];
-                //     $scope.displayMovie = true;
-                //     $location.search('view', 'movie');
-                //
-                //     /*
-                //      * enable scrolling. this is only here for ios
-                //      */
-                //     $scope.uiAnimatedPages.enableScroll();
-                //
-                //     /*
-                //      * make sure we scroll back to the top
-                //      *
-                //      * i really don't like doing this here but i really
-                //      * don't feel like creating a directive to handle
-                //      * this. seems like over-kill for this one thing
-                //      */
-                //     $timeout(function () {
-                //         document.querySelector('.scroller').scrollTop = 0;
-                //     }, 0);
-                //
-                //     analytics.trackEvent('Poster', 'Tap', $scope.movie.title);
-                //     analytics.trackPage('detail');
-                // };
-
-                // $scope.goBack = function() {
-                //     $scope.displayMovie = false;
-                //
-                //     /*
-                //      * disable scrolling. this is only here for ios
-                //      */
-                //     $scope.uiAnimatedPages.disableScroll();
-                //     $location.search('');
-                //
-                //     analytics.trackPage('movies');
-                // };
-                //
-                // $scope.showTrailer = function () {
-                //     $scope.showingTrailer = true;
-                //     $location.search('view', 'trailer');
-                //
-                //     analytics.trackEvent('Trailer', 'Tap', $scope.movie.title);
-                //     analytics.trackPage('trailer');
-                // };
-                //
-                // $scope.hideTrailer = function () {
-                //     $scope.showingTrailer = false;
-                //     $location.search('view', 'movie');
-                //
-                //     analytics.trackPage('detail');
-                // };
 
                 /*
                  * kick everything off

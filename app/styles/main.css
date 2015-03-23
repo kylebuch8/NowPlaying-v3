@@ -485,13 +485,32 @@ embed-video iframe {
 }
 ui-toast {
   position: absolute;
-  bottom: 16px;
-  left: 16px;
-  padding: 16px;
-  border-radius: 32px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-size: 14px;
+  padding: 16px 24px;
   z-index: 10000;
-  color: #333;
-  background-color: rgba(255, 255, 255, 0.8);
+  color: white;
+  background-color: #323232;
+  transition: all 0.2s ease-in-out;
+}
+ui-toast.enter {
+  transform: translate3d(0, 50px, 0);
+  opacity: 0;
+}
+ui-toast.enter-active {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+ui-toast.leave {
+  transform: translate3d(0, 50px, 0);
+  opacity: 0;
+}
+ui-toast .ui-toast-action {
+  text-transform: uppercase;
+  float: right;
+  color: #fffd9d;
 }
 .loader {
   position: absolute;
@@ -555,6 +574,16 @@ ui-toast {
   100% {
     stroke-dasharray: 89,200;
     stroke-dashoffset: -124;
+  }
+}
+@media (min-width: 568px) {
+  ui-toast {
+    right: auto;
+    min-width: 288px;
+    max-width: 568px;
+    bottom: 16px;
+    left: 16px;
+    border-radius: 2px;
   }
 }
 @media (min-width: 600px) {

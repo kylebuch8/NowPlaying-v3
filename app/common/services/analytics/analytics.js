@@ -11,8 +11,8 @@
                 googleAnalytics = window.analytics;
             } else {
                 googleAnalytics = {
-                    init: function () {},
-                    trackPage: function () {},
+                    startTrackerWithId: function () {},
+                    trackView: function () {},
                     trackEvent: function () {}
                 };
             }

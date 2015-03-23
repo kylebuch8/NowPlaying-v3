@@ -35,7 +35,7 @@
         return rimraf('./cordova/www', cb);
     });
 
-    gulp.task('build-cordova', ['clean-cordova'], function () {
+    gulp.task('build-cordova', ['less', 'clean-cordova'], function () {
         gulp.src('./app/**/*')
             .pipe(gulp.dest('./cordova/www'));
     });
