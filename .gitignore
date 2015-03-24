@@ -8,3 +8,4 @@ cordova/plugins/*
 !cordova/plugins/android.json
 !cordova/plugins/ios.json
 cordova/www
+dist
