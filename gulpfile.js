@@ -79,7 +79,7 @@
     });
 
     gulp.task('build-cordova', ['less', 'clean-cordova'], function () {
-        gulp.src('./app/**/*')
+        gulp.src('./dist/**/*')
             .pipe(gulp.dest('./cordova/www'));
     });
 

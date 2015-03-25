@@ -69,13 +69,13 @@
         };
     }
 
-    function UiToastProvider($rootScope, $compile, $timeout, $q) {
-        this.$get = function($rootScope, $compile, $timeout, $q) {
+    function UiToastProvider() {
+        this.$get = ['$rootScope', '$compile', '$timeout', '$q', function($rootScope, $compile, $timeout, $q) {
             return new UiToast($rootScope, $compile, $timeout, $q);
-        };
+        }];
     }
 
     angular.module('directives.uiToast', [])
-        .directive('uiToast', [UiToastDirective])
-        .provider('$uiToast', [UiToastProvider]);
+        .directive('uiToast', UiToastDirective)
+        .provider('$uiToast', UiToastProvider);
 }());
