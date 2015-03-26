@@ -611,6 +611,16 @@ ui-toast .ui-toast-action {
 .movie .poster img.detail-poster {
   max-height: 300px;
 }
+.hide {
+  display: none;
+}
+.fade-in {
+  opacity: 0;
+  transition: opacity 0.25s ease-in;
+}
+.fade-in-start {
+  opacity: 1;
+}
 @media (min-height: 230px) and (orientation: landscape) {
   .movie .poster img {
     max-width: 50%;

@@ -14,7 +14,7 @@
             <div class="movie page" ng-style="{'background-image': 'url({{::movie.images.bg}})'};" ng-repeat="movie in movies">
                 <div class="movie-content">
                     <div class="poster">
-                        <img class="animated-pages" ng-src="{{::movie.images.poster}}" ng-click="goToMovie(movie)">
+                        <img class="animated-pages" ng-src="{{::movie.images.poster}}" ng-click="goToMovie(movie)" ui-image>
                     </div>
                     <div class="title" ng-click="goToMovie(movie)">
                         <h1>{{::movie.title}}</h1>
@@ -45,7 +45,7 @@
         <div class="movie detail" style="background-image: url({{movie.images.bg}});">
             <div class="movie-content">
                 <div class="poster">
-                    <img ng-src="{{movie.images.poster}}" class="detail-poster">
+                    <img ng-src="{{movie.images.poster}}" class="detail-poster" ui-image>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" width="50" height="50" ng-click="showTrailer()">
                         <circle cx="12" cy="12" r="9" fill="rgba(0, 0, 0, 0.8)"/>
                         <path d="M10 16.5l6-4.5-6-4.5v9z"></path>
