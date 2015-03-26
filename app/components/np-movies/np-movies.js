@@ -7,6 +7,7 @@
         'directives.uiPageIndicators',
         'directives.uiAnimatedPages',
         'directives.uiToast',
+        'directives.uiImage',
         'services.movies',
         'services.analytics'
     ])
