@@ -5,7 +5,6 @@
     angular.module('nowPlaying', [
         'ngAnimate',
         'npMovies',
-        'npMovie',
         'services.movies'
     ])
 

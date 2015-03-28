@@ -55,21 +55,6 @@
                         element.append(newCircleEl);
                         circles.push(newCircleEl);
                     }
-
-                    // scope.uiPageIndicators.setNumIndicators(circles.length);
-                    // scope.active = active;
-                    //
-                    // scope.$watch('uiPageIndicators.active-page', function (newValue) {
-                    //     if (newValue  || newValue === 0) {
-                    //         if (newValue === scope.active) {
-                    //             return;
-                    //         }
-                    //
-                    //         circles[scope.active].removeClass('active-page');
-                    //         scope.active = newValue;
-                    //         circles[scope.active].addClass('active-page');
-                    //     }
-                    // });
                 }
             };
         }])
