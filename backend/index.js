@@ -9,6 +9,9 @@ var crontab = require('node-crontab');
 var SMALL_IMAGE_WIDTH = 180;
 var LARGE_IMAGE_WIDTH = 420;
 
+var openingUrl = 'http://api.rottentomatoes.com/api/public/v1.0/lists/movies/opening.json?limit=3';
+var inTheatersUrl = 'http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json?limit=13';
+
 AWS.config.update(config.aws);
 
 var s3 = new AWS.S3();
@@ -214,11 +217,13 @@ function getYoutubeMovieIds(movies) {
     return q.all(promises);
 }
 
-function getMovies() {
+function getMovies(url) {
     var deferred = q.defer();
     var rottenTomatoesApiKey = config.rottenTomatoes.apiKey;
     var timestamp = new Date().getTime();
-    var rottenTomatoesInTheatersUrl = 'http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json?d=' + timestamp + '&apikey=' + rottenTomatoesApiKey;
+    var rottenTomatoesInTheatersUrl = url + '&d=' + timestamp + '&apikey=' + rottenTomatoesApiKey;
+
+    console.log(rottenTomatoesInTheatersUrl);
 
     http.get(rottenTomatoesInTheatersUrl, function (res) {
         var data = '';
@@ -259,28 +264,44 @@ function getMovies() {
 }
 
 function run () {
-    getMovies().then(function (result) {
-        var movies = result.movies;
+    var movies = [];
 
-        generateAllMoviePosters(movies)
-            .then(getYoutubeMovieIds)
-            .then(function (movies) {
-                var output = __dirname + '/data.json';
+    getMovies(openingUrl)
+        .then(function (result) {
+            movies = movies.concat(result.movies);
 
-                fs.writeFile(output, JSON.stringify(movies, null, 4), function (err) {
-                    if (err) {
-                        console.log(err);
-                        return;
-                    }
+            getMovies(inTheatersUrl).then(function (result) {
+                movies = movies.concat(result.movies);
 
-                    console.log('JSON saved to ' + output);
-                });
+                console.log(movies.length);
 
-                uploadJson(movies).then(function (data) {
-                    console.log('JSON saved to S3');
-                });
+                /*
+                 * only take the first 16 movies
+                 */
+                movies = movies.slice(0, 16);
+
+                console.log(movies.length);
+
+                generateAllMoviePosters(movies)
+                    .then(getYoutubeMovieIds)
+                    .then(function (movies) {
+                        var output = __dirname + '/data.json';
+
+                        fs.writeFile(output, JSON.stringify(movies, null, 4), function (err) {
+                            if (err) {
+                                console.log(err);
+                                return;
+                            }
+
+                            console.log('JSON saved to ' + output);
+                        });
+
+                        uploadJson(movies).then(function (data) {
+                            console.log('JSON saved to S3');
+                        });
+                    });
             });
-    });
+        });
 }
 
 var jobId = crontab.scheduleJob('0 1 * * *', run);
