@@ -23,9 +23,11 @@
         };
 
         this.activate = function (number) {
-            circles[this.active].removeClass('active-page');
-            this.active = number;
-            circles[this.active].addClass('active-page');
+            if (circles.length) {
+                circles[this.active].removeClass('active-page');
+                this.active = number;
+                circles[this.active].addClass('active-page');
+            }
 
             return number;
         };
