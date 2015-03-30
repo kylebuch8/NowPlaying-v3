@@ -6,6 +6,8 @@ var config = require('./config.json');
 var AWS = require('aws-sdk');
 var youtube = require('./youtube.js');
 var crontab = require('node-crontab');
+var ColorThief = require('color-thief');
+var colorThief = new ColorThief();
 var SMALL_IMAGE_WIDTH = 180;
 var LARGE_IMAGE_WIDTH = 420;
 
@@ -25,9 +27,9 @@ function setMoviePosters(posters) {
         url = 'http://' + posters.profile.split(regex)[1];
 
     posters.original = url;
-    // posters.profile = url.replace('_ori', '_pro');
-    // posters.detailed = url.replace('_ori', '_det');
-    // posters.thumbnail = url.replace('_ori', '_tmb');
+    posters.profile = url;
+    posters.detailed = url;
+    posters.thumbnail = url;
 
     return posters;
 }
@@ -94,7 +96,7 @@ function generatePosterImage(posterUrl, fileName, width) {
     http.get(posterUrl, function (res) {
         var data = '';
 
-        console.log('Downloading image: ' + posterUrl);
+        //console.log('Downloading image: ' + posterUrl);
 
         res.setEncoding('binary');
 
@@ -104,6 +106,13 @@ function generatePosterImage(posterUrl, fileName, width) {
 
         res.on('end', function () {
             fs.writeFileSync(output, data, 'binary');
+
+            // var rgb = colorThief.getPalette(output, 8);
+            // console.log(rgb);
+
+            console.log(posterUrl);
+            console.log(colorThief.getColor(output, 10));
+
             gm(output)
                 .resize(width)
                 .stream(function (err, stdout, stderr) {
@@ -123,6 +132,7 @@ function generatePosterImage(posterUrl, fileName, width) {
                     });
                 })
                 .identify(function (err, format) {
+                    console.log(err);
                     var size = format.size,
                         filesize = format.Filesize,
                         secondBlurValue = (width === LARGE_IMAGE_WIDTH) ? 5 : 3;
@@ -273,14 +283,10 @@ function run () {
             getMovies(inTheatersUrl).then(function (result) {
                 movies = movies.concat(result.movies);
 
-                console.log(movies.length);
-
                 /*
                  * only take the first 16 movies
                  */
                 movies = movies.slice(0, 16);
-
-                console.log(movies.length);
 
                 generateAllMoviePosters(movies)
                     .then(getYoutubeMovieIds)

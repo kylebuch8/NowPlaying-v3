@@ -24,6 +24,13 @@
                 };
             }
 
+            function isOpening(openingDate) {
+                var now = moment(),
+                    openingDate = moment(openingDate);
+
+                return openingDate > now;
+            }
+
             /*
              * we'll need a refresh if there are no movies, or if there are
              * movies, the data needs to be less than 12 hours old
@@ -77,6 +84,18 @@
 
                     if (!moviesService.needsRefresh()) {
                         moviesService.movies = JSON.parse(cachedMovies);
+
+                        /*
+                         * loop through the movies and figure out if we need
+                         * to show the release date
+                         */
+                        moviesService.movies.forEach(function (movie) {
+                            //if (isOpening(movie.release_dates.theater)) {
+                            if (isOpening('2015-04-01')) {
+                                movie.opening = 'Opens ' + moment(movie.release_dates.theater).format('dddd');
+                            }
+                        });
+
                         deferred.resolve(moviesService.movies);
 
                         return deferred.promise;
