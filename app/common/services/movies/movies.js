@@ -90,8 +90,7 @@
                          * to show the release date
                          */
                         moviesService.movies.forEach(function (movie) {
-                            //if (isOpening(movie.release_dates.theater)) {
-                            if (isOpening('2015-04-01')) {
+                            if (isOpening(movie.release_dates.theater)) {
                                 movie.opening = 'Opens ' + moment(movie.release_dates.theater).format('dddd');
                             }
                         });
