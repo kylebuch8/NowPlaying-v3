@@ -17,8 +17,8 @@
                         <img class="animated-pages" ng-src="{{::movie.images.poster}}" ng-click="goToMovie(movie)" ui-image>
                     </div>
                     <div class="title" ng-click="goToMovie(movie)">
-                        <div ng-show="movie.opening" class="opening">{{::movie.opening}}</div>
                         <h1>{{::movie.title}}</h1>
+                        <div ng-show="movie.opening" class="opening" ng-style="{backgroundColor: movie.colors.dominantColor, color: (movie.colors.textColor === 'light') ? 'white' : '#333'}">{{::movie.opening}}</div>
                         <div class="score">{{::movie.ratings.critics_score}}</div>
                         <div><strong>{{::movie.mpaa_rating}}, {{::movie.duration}}</strong></div>
                     </div>
@@ -54,8 +54,8 @@
                     </svg>
                 </div>
                 <div class="title">
-                    <div ng-show="movie.opening" class="opening">{{movie.opening}}</div>
                     <h1>{{movie.title}}</h1>
+                    <div ng-show="movie.opening" class="opening" ng-style="{backgroundColor: movie.colors.dominantColor, color: (movie.colors.textColor === 'light') ? 'white' : '#333'}">{{movie.opening}}</div>
                     <div class="score">{{movie.ratings.critics_score}}</div>
                     <div><strong>{{movie.mpaa_rating}}, {{movie.duration}}</strong></div>
                 </div>

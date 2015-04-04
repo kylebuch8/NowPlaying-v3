@@ -81,6 +81,23 @@ function uploadJson(json) {
 }
 
 /*
+ * functions we'll use with color thief
+ */
+function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
+
+function rgbToHex(r, g, b) {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
+function getContrast50(hexcolor){
+    hexcolor = hexcolor.replace('#', '');
+    return (parseInt(hexcolor, 16) > 0xffffff/2) ? 'dark' : 'light';
+}
+
+/*
  * 1. download the image first and write it locally
  * 2. upload the original to amazon
  * 3. blur original and add opacity layer
@@ -89,14 +106,13 @@ function uploadJson(json) {
 function generatePosterImage(posterUrl, fileName, width) {
     var originalImagePromise = q.defer();
     var blurredImagePromise = q.defer();
-    var promises = [originalImagePromise.promise, blurredImagePromise.promise];
+    var colorThiefPromise = q.defer();
+    var promises = [originalImagePromise.promise, blurredImagePromise.promise, colorThiefPromise.promise];
     var output = __dirname + '/images/' + fileName + '.jpg';
     var blurredOutput = __dirname + '/images/' + fileName + '_blur.jpg';
 
     http.get(posterUrl, function (res) {
         var data = '';
-
-        //console.log('Downloading image: ' + posterUrl);
 
         res.setEncoding('binary');
 
@@ -107,11 +123,17 @@ function generatePosterImage(posterUrl, fileName, width) {
         res.on('end', function () {
             fs.writeFileSync(output, data, 'binary');
 
-            // var rgb = colorThief.getPalette(output, 8);
-            // console.log(rgb);
-
             console.log(posterUrl);
-            console.log(colorThief.getColor(output, 10));
+
+            var colors = colorThief.getPalette(output),
+                rgb = colors[0],
+                dominantColor = rgbToHex(rgb[0], rgb[1], rgb[2]),
+                textColor = getContrast50(dominantColor);
+
+            colorThiefPromise.resolve({
+                dominantColor: dominantColor,
+                textColor: textColor
+            });
 
             gm(output)
                 .resize(width)
@@ -132,7 +154,6 @@ function generatePosterImage(posterUrl, fileName, width) {
                     });
                 })
                 .identify(function (err, format) {
-                    console.log(err);
                     var size = format.size,
                         filesize = format.Filesize,
                         secondBlurValue = (width === LARGE_IMAGE_WIDTH) ? 5 : 3;
@@ -182,6 +203,7 @@ function generateAllMoviePosters(movies) {
         generatePosterImage(movie.posters.detailed, movie.id, SMALL_IMAGE_WIDTH).then(function (data) {
             movie.images.poster = data[0];
             movie.images.bg = data[1];
+            movie.colors = data[2];
 
             smallPostersSaved = true;
 
@@ -196,6 +218,7 @@ function generateAllMoviePosters(movies) {
         generatePosterImage(movie.posters.original, movie.id + '_lg', LARGE_IMAGE_WIDTH).then(function (data) {
             movie.images.poster_lg = data[0];
             movie.images.bg_lg = data[1];
+            movie.colors = data[2];
 
             largePostersSaved = true;
 
