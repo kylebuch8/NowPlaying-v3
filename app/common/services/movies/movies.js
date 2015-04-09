@@ -31,6 +31,20 @@
                 return openingDate > now;
             }
 
+            function showReleaseDate(movies) {
+                /*
+                 * loop through the movies and figure out if we need
+                 * to show the release date
+                 */
+                movies.forEach(function (movie) {
+                    if (isOpening(movie.release_dates.theater)) {
+                        movie.opening = 'Opens ' + moment(movie.release_dates.theater).format('dddd');
+                    }
+                });
+
+                return movies;
+            }
+
             /*
              * we'll need a refresh if there are no movies, or if there are
              * movies, the data needs to be less than 12 hours old
@@ -83,17 +97,10 @@
                     lastUpdated = new Date(parseInt(lastUpdated, 10));
 
                     if (!moviesService.needsRefresh()) {
-                        moviesService.movies = JSON.parse(cachedMovies);
+                        var movies = JSON.parse(cachedMovies);
+                        movies = showReleaseDate(movies);
 
-                        /*
-                         * loop through the movies and figure out if we need
-                         * to show the release date
-                         */
-                        moviesService.movies.forEach(function (movie) {
-                            if (isOpening(movie.release_dates.theater)) {
-                                movie.opening = 'Opens ' + moment(movie.release_dates.theater).format('dddd');
-                            }
-                        });
+                        moviesService.movies = movies;
 
                         deferred.resolve(moviesService.movies);
 
@@ -128,6 +135,8 @@
                                 movie.images.bg = movie.images.bg_lg;
                             //}
                         });
+
+                        movies = showReleaseDate(movies);
 
                         localStorage.setItem('movies', JSON.stringify(movies));
                         localStorage.setItem('last-updated', Date.now());
