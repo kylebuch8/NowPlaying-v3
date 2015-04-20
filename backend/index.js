@@ -26,6 +26,14 @@ function setMoviePosters(posters) {
     var regex = /[0-9]{2}x[0-9]{2}\//,
         url = 'http://' + posters.profile.split(regex)[1];
 
+    /*
+     * sometimes the url comes back in a format that i'm not
+     * prepared to parse
+     */
+    if (url === 'http://undefined') {
+        url = posters.profile;
+    }
+
     posters.original = url;
     posters.profile = url;
     posters.detailed = url;
@@ -46,6 +54,7 @@ function uploadImage(dataObj) {
 
     s3.putObject(data, function (err, resp) {
         if (err) {
+            console.log('amazon s3 error');
             console.log(err);
             deferred.reject(new Error(err));
             return;
@@ -69,6 +78,7 @@ function uploadJson(json) {
 
     s3.putObject(data, function (err, resp) {
         if (err) {
+            console.log('error uploading json to s3');
             console.log(err);
             deferred.reject(new Error(err));
             return;
@@ -112,6 +122,7 @@ function generatePosterImage(posterUrl, fileName, width) {
     var blurredOutput = __dirname + '/images/' + fileName + '_blur.jpg';
 
     http.get(posterUrl, function (res) {
+        console.log(posterUrl);
         var data = '';
 
         res.setEncoding('binary');
@@ -181,6 +192,13 @@ function generatePosterImage(posterUrl, fileName, width) {
                         });
                 });
         });
+    }).on('error', function (error) {
+        colorThiefPromise.reject();
+        blurredImagePromise.reject();
+        originalImagePromise.reject();
+        console.log('error downloading image');
+        console.log(posterUrl);
+        console.log(error);
     });
 
     return q.all(promises);
@@ -291,6 +309,9 @@ function getMovies(url) {
 
             deferred.resolve(result);
         });
+    }).on('error', function (error) {
+        console.log('could not get movie data');
+        console.log(error);
     });
 
     return deferred.promise;
@@ -303,8 +324,12 @@ function run () {
         .then(function (result) {
             movies = movies.concat(result.movies);
 
+            console.log('done getting opening movies');
+
             getMovies(inTheatersUrl).then(function (result) {
                 movies = movies.concat(result.movies);
+
+                console.log('done getting in theaters movies');
 
                 /*
                  * only take the first 16 movies
