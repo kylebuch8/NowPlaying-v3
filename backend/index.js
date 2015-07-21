@@ -208,6 +208,10 @@ function generateAllMoviePosters(movies) {
     var promises = [];
 
     movies.forEach(function (movie) {
+        if (movie.title.indexOf('Double Indemnity') > -1) {
+            return;
+        }
+
         var deferred = q.defer(),
             smallPostersSaved = false,
             largePostersSaved = false;
