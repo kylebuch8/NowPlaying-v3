@@ -5,9 +5,10 @@ var q = require('q');
 var config = require('./config.json');
 var AWS = require('aws-sdk');
 var youtube = require('./youtube.js');
-var crontab = require('node-crontab');
-var ColorThief = require('color-thief');
-var colorThief = new ColorThief();
+var posters = require('./posters.js');
+// var crontab = require('node-crontab');
+// var ColorThief = require('color-thief');
+// var colorThief = new ColorThief();
 var SMALL_IMAGE_WIDTH = 180;
 var LARGE_IMAGE_WIDTH = 420;
 
@@ -204,6 +205,39 @@ function generatePosterImage(posterUrl, fileName, width) {
     return q.all(promises);
 }
 
+function getAllMoviePosterUrls(movies) {
+    return posters.getConfiguration().then(function () {
+        var promises = [];
+
+        movies.forEach(function (movie) {
+            var deferred = q.defer();
+
+            if (movie.alternate_ids) {
+                posters.getMovieData(movie.alternate_ids.imdb).then(function (response) {
+                    var movieResults = response.movie_results;
+
+                    if (movieResults.length) {
+                        var movieData = movieResults[0];
+                        var backdropPath = movieData.backdrop_path;
+                        var posterPath = movieData.poster_path;
+                        var imageUrls = posters.buildImageUrls(backdropPath, posterPath);
+
+                        movie.imageUrls = imageUrls;
+                    }
+
+                    deferred.resolve(movie);
+                });
+            } else {
+                deferred.resolve(movie);
+            }
+
+            promises.push(deferred.promise);
+        });
+
+        return q.all(promises);
+    });
+}
+
 function generateAllMoviePosters(movies) {
     var promises = [];
 
@@ -336,27 +370,34 @@ function run () {
                  */
                 movies = movies.slice(0, 16);
 
-                generateAllMoviePosters(movies)
-                    .then(getYoutubeMovieIds)
-                    .then(function (movies) {
-                        var output = __dirname + '/data.json';
-
-                        fs.writeFile(output, JSON.stringify(movies, null, 4), function (err) {
-                            if (err) {
-                                console.log(err);
-                                return;
-                            }
-
-                            console.log('JSON saved to ' + output);
+                getAllMoviePosterUrls(movies).then(function () {
+                    generateAllMoviePosters(movies)
+                        .then(function () {
+                            console.log('all done!');
                         });
+                });
 
-                        uploadJson(movies).then(function (data) {
-                            console.log('JSON saved to S3');
-                        });
-                    });
+                // generateAllMoviePosters(movies)
+                //     .then(getYoutubeMovieIds)
+                //     .then(function (movies) {
+                //         var output = __dirname + '/data.json';
+                //
+                //         fs.writeFile(output, JSON.stringify(movies, null, 4), function (err) {
+                //             if (err) {
+                //                 console.log(err);
+                //                 return;
+                //             }
+                //
+                //             console.log('JSON saved to ' + output);
+                //         });
+                //
+                //         uploadJson(movies).then(function (data) {
+                //             console.log('JSON saved to S3');
+                //         });
+                //     });
             });
         });
 }
 
-var jobId = crontab.scheduleJob('0 1 * * *', run);
+//var jobId = crontab.scheduleJob('0 1 * * *', run);
 run();
