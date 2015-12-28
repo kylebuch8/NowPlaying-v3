@@ -6,9 +6,9 @@ var config = require('./config.json');
 var AWS = require('aws-sdk');
 var youtube = require('./youtube.js');
 var posters = require('./posters.js');
-// var crontab = require('node-crontab');
-// var ColorThief = require('color-thief');
-// var colorThief = new ColorThief();
+var crontab = require('node-crontab');
+var ColorThief = require('color-thief');
+var colorThief = new ColorThief();
 var SMALL_IMAGE_WIDTH = 180;
 var LARGE_IMAGE_WIDTH = 420;
 
@@ -123,7 +123,6 @@ function generatePosterImage(posterUrl, fileName, width) {
     var blurredOutput = __dirname + '/images/' + fileName + '_blur.jpg';
 
     http.get(posterUrl, function (res) {
-        console.log(posterUrl);
         var data = '';
 
         res.setEncoding('binary');
@@ -134,8 +133,6 @@ function generatePosterImage(posterUrl, fileName, width) {
 
         res.on('end', function () {
             fs.writeFileSync(output, data, 'binary');
-
-            console.log(posterUrl);
 
             var colors = colorThief.getPalette(output),
                 rgb = colors[0],
@@ -215,8 +212,9 @@ function getAllMoviePosterUrls(movies) {
             if (movie.alternate_ids) {
                 posters.getMovieData(movie.alternate_ids.imdb).then(function (response) {
                     var movieResults = response.movie_results;
+                    console.log(movieResults);
 
-                    if (movieResults.length) {
+                    if (movieResults.length && movieResults[0].backdrop_path !== null && movieResults[0].poster_path !== null) {
                         var movieData = movieResults[0];
                         var backdropPath = movieData.backdrop_path;
                         var posterPath = movieData.poster_path;
@@ -247,12 +245,13 @@ function generateAllMoviePosters(movies) {
             largePostersSaved = false;
 
         movie.images = {};
-        movie.posters = setMoviePosters(movie.posters);
+        //movie.posters = setMoviePosters(movie.posters);
+        var movieUrl = (movie.imageUrls) ? movie.imageUrls.poster : movie.posters.detailed;
 
         /*
          * get the detailed posters
          */
-        generatePosterImage(movie.posters.detailed, movie.id, SMALL_IMAGE_WIDTH).then(function (data) {
+        generatePosterImage(movieUrl, movie.id, SMALL_IMAGE_WIDTH).then(function (data) {
             movie.images.poster = data[0];
             movie.images.bg = data[1];
             movie.colors = data[2];
@@ -267,7 +266,7 @@ function generateAllMoviePosters(movies) {
         /*
          * get the original posters
          */
-        generatePosterImage(movie.posters.original, movie.id + '_lg', LARGE_IMAGE_WIDTH).then(function (data) {
+        generatePosterImage(movieUrl, movie.id + '_lg', LARGE_IMAGE_WIDTH).then(function (data) {
             movie.images.poster_lg = data[0];
             movie.images.bg_lg = data[1];
             movie.colors = data[2];
@@ -372,29 +371,24 @@ function run () {
 
                 getAllMoviePosterUrls(movies).then(function () {
                     generateAllMoviePosters(movies)
-                        .then(function () {
-                            console.log('all done!');
+                        .then(getYoutubeMovieIds)
+                        .then(function (movies) {
+                            var output = __dirname + '/data.json';
+
+                            fs.writeFile(output, JSON.stringify(movies, null, 4), function (err) {
+                                if (err) {
+                                    console.log(err);
+                                    return;
+                                }
+
+                                console.log('JSON saved to ' + output);
+                            });
+
+                            uploadJson(movies).then(function (data) {
+                                console.log('JSON saved to S3');
+                            });
                         });
                 });
-
-                // generateAllMoviePosters(movies)
-                //     .then(getYoutubeMovieIds)
-                //     .then(function (movies) {
-                //         var output = __dirname + '/data.json';
-                //
-                //         fs.writeFile(output, JSON.stringify(movies, null, 4), function (err) {
-                //             if (err) {
-                //                 console.log(err);
-                //                 return;
-                //             }
-                //
-                //             console.log('JSON saved to ' + output);
-                //         });
-                //
-                //         uploadJson(movies).then(function (data) {
-                //             console.log('JSON saved to S3');
-                //         });
-                //     });
             });
         });
 }
