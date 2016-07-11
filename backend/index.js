@@ -1,6 +1,7 @@
 var gm = require('gm');
 var fs = require('fs');
 var http = require('http');
+var https = require('https');
 var q = require('q');
 var config = require('./config.json');
 var AWS = require('aws-sdk');
@@ -121,8 +122,9 @@ function generatePosterImage(posterUrl, fileName, width) {
     var promises = [originalImagePromise.promise, blurredImagePromise.promise, colorThiefPromise.promise];
     var output = __dirname + '/images/' + fileName + '.jpg';
     var blurredOutput = __dirname + '/images/' + fileName + '_blur.jpg';
+    var httpFunction = (posterUrl.indexOf('https://') > -1) ? https : http;
 
-    http.get(posterUrl, function (res) {
+    httpFunction.get(posterUrl, function (res) {
         var data = '';
 
         res.setEncoding('binary');
@@ -191,6 +193,7 @@ function generatePosterImage(posterUrl, fileName, width) {
                 });
         });
     }).on('error', function (error) {
+        console.log('there was an error');
         colorThiefPromise.reject();
         blurredImagePromise.reject();
         originalImagePromise.reject();
@@ -212,7 +215,6 @@ function getAllMoviePosterUrls(movies) {
             if (movie.alternate_ids) {
                 posters.getMovieData(movie.alternate_ids.imdb).then(function (response) {
                     var movieResults = response.movie_results;
-                    console.log(movieResults);
 
                     if (movieResults.length && movieResults[0].backdrop_path !== null && movieResults[0].poster_path !== null) {
                         var movieData = movieResults[0];
@@ -239,7 +241,7 @@ function getAllMoviePosterUrls(movies) {
 function generateAllMoviePosters(movies) {
     var promises = [];
 
-    movies.forEach(function (movie) {
+    movies.forEach(function (movie, index) {
         var deferred = q.defer(),
             smallPostersSaved = false,
             largePostersSaved = false;
@@ -248,10 +250,13 @@ function generateAllMoviePosters(movies) {
         //movie.posters = setMoviePosters(movie.posters);
         var movieUrl = (movie.imageUrls) ? movie.imageUrls.poster : movie.posters.detailed;
 
+        console.log(`Movie #${index} URL: ${movieUrl}`);
         /*
          * get the detailed posters
          */
         generatePosterImage(movieUrl, movie.id, SMALL_IMAGE_WIDTH).then(function (data) {
+            console.log(movie.title);
+            console.log(data);
             movie.images.poster = data[0];
             movie.images.bg = data[1];
             movie.colors = data[2];
@@ -261,12 +266,14 @@ function generateAllMoviePosters(movies) {
             if (smallPostersSaved && largePostersSaved) {
                 deferred.resolve(movie);
             }
-        });
+        }, err => console.log(err));
 
         /*
          * get the original posters
          */
         generatePosterImage(movieUrl, movie.id + '_lg', LARGE_IMAGE_WIDTH).then(function (data) {
+            console.log(movie.title);
+            console.log(data);
             movie.images.poster_lg = data[0];
             movie.images.bg_lg = data[1];
             movie.colors = data[2];
@@ -276,7 +283,7 @@ function generateAllMoviePosters(movies) {
             if (smallPostersSaved && largePostersSaved) {
                 deferred.resolve(movie);
             }
-        });
+        }, err => console.log(err));
 
         promises.push(deferred.promise);
     });
@@ -369,12 +376,15 @@ function run () {
                  */
                 movies = movies.slice(0, 16);
 
+                movies.forEach((movie, index) => {
+                  console.log(`Movie #${index}: ${movie.title}`);
+                });
+
                 getAllMoviePosterUrls(movies).then(function () {
                     generateAllMoviePosters(movies)
                         .then(getYoutubeMovieIds)
                         .then(function (movies) {
                             var output = __dirname + '/data.json';
-
                             fs.writeFile(output, JSON.stringify(movies, null, 4), function (err) {
                                 if (err) {
                                     console.log(err);
@@ -388,7 +398,7 @@ function run () {
                                 console.log('JSON saved to S3');
                             });
                         });
-                });
+                }, err => console.log(err));
             });
         });
 }

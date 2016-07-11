@@ -15,6 +15,7 @@ var getConfiguration = function () {
 
             deferred.resolve(data);
         } else {
+            console.log(error);
             deferred.reject(error);
         }
     });
@@ -29,6 +30,7 @@ var getMovieData = function (movieId) {
         if (!error && response.statusCode === 200) {
             deferred.resolve(JSON.parse(body));
         } else {
+            console.log(error);
             deferred.reject(error);
         }
     });
